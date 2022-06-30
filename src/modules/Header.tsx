@@ -10,13 +10,16 @@ import {
 	Button,
 	Image,
 	useMantineTheme,
+	Indicator,
 } from '@mantine/core';
 import { Search, ShoppingCart } from 'tabler-icons-react';
 import { CatalogFilter } from '../components/CatalogFilter';
 import { UserControlPanel } from '../components/UserControlPanel';
 import logo from '../assets/images/logo.png';
-import { RouteNames } from '../types/router';
+import { RouteNames } from '../types/enums/router';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../hooks/react-redux';
+import { CartButton } from '../components/CartButton';
 
 export default function Header() {
 	const theme = useMantineTheme();
@@ -60,19 +63,7 @@ export default function Header() {
 				<Grid.Col span={1}>
 					<Navbar.Section>
 						<Group direction="column" align="end">
-							<Link to={RouteNames.CART}>
-								<Button
-									variant="subtle"
-									color="green"
-									rightIcon={
-										<ShoppingCart
-											size={28}
-											strokeWidth={1}
-										/>
-									}>
-									<Text weight={200}>Корзина</Text>
-								</Button>
-							</Link>
+							<CartButton />
 						</Group>
 					</Navbar.Section>
 				</Grid.Col>

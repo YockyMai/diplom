@@ -9,7 +9,7 @@ import {
 import { SignUp } from '../components/SignUp';
 import { Outlet, useLocation, useNavigate, Link } from 'react-router-dom';
 import { Login } from '../components/Login';
-import { RouteNames } from '../types/router';
+import { RouteNames } from '../types/enums/router';
 
 export const Auth: FC = () => {
 	const [activeStep, setStep] = useState<number>(0);

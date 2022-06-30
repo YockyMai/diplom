@@ -6,25 +6,60 @@ import {
 	SimpleGrid,
 	Center,
 	AspectRatio,
+	Image,
 } from '@mantine/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'tabler-icons-react';
 import { ProductCard } from '../components/ProductCard';
+import banner from '../assets/images/banner.jpg';
 
 export const Main = () => {
 	return (
 		<Container size="xl">
 			<Group position="apart" mt={100} align="center">
-				<Title order={2}>Акции</Title>
-				<Group>
-					<Link to={'/'}>
-						<Text variant="link">Все акции</Text>
-					</Link>
-					<ChevronRight />
-				</Group>
+				<Title
+					order={2}
+					align="center"
+					style={{ textTransform: 'uppercase', margin: '0 auto' }}>
+					sneakers-always маркетплейс
+				</Title>
+				<Image src={banner} />
+				<Title
+					style={{ margin: '20px auto 0px auto' }}
+					align="center"
+					order={2}>
+					Почему именно мы?
+				</Title>
+				<div style={{ margin: '0 auto' }}>
+					<Text align="center">
+						* Большой выбор оригинальной спортивной обуви, одежды и
+						аксессуаров мировых торговых марок. Гарантия отсутствия
+						подделок;
+					</Text>
+					<Text align="center">
+						* Лояльная ценовая политика, направленная на то, чтобы
+						дать возможность покупателям приобретать наши товарные
+						позиции выгодно;
+					</Text>
+					<Text align="center">
+						* Все реализуемые изделия проверяются в
+						аутентификационном центре;
+					</Text>
+					<Text align="center">
+						* Своим покупателям мы гарантируем оригинальность,
+						надёжность и функциональность всех реализуемых товаров;
+					</Text>
+					<Text align="center">
+						* Оперативная обработка заказов, и их быстрая доставка;
+					</Text>
+					<Text align="center">
+						* Индивидуальный подход и помощь в подборе необходимых
+						товаров.
+					</Text>
+				</div>
 			</Group>
-			<Center>
+			{/* <Center>
 				<SimpleGrid
 					breakpoints={[
 						{ maxWidth: 1480, cols: 3, spacing: 'md' },
@@ -32,10 +67,10 @@ export const Main = () => {
 						{ maxWidth: 800, cols: 1 },
 					]}
 					cols={4}>
+					 <ProductCard />
 					<ProductCard />
 					<ProductCard />
-					<ProductCard />
-					<ProductCard />
+					<ProductCard /> 
 				</SimpleGrid>
 			</Center>
 
@@ -59,9 +94,9 @@ export const Main = () => {
 					<ProductCard />
 					<ProductCard />
 					<ProductCard />
-					<ProductCard />
+					<ProductCard /> 
 				</SimpleGrid>
-			</Center>
+			</Center> */}
 
 			<Title order={2} style={{ marginTop: 100 }} mb="xl">
 				Мы на карте!

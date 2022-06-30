@@ -10,47 +10,82 @@ import {
 	useMantineTheme,
 } from '@mantine/core';
 import React, { FC } from 'react';
+
 import { Minus, Plus } from 'tabler-icons-react';
+import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
+import { addOneItem, awayOneItem } from '../store/slices/cartSlice';
+import { ICartItem } from '../types/objects/cartItem';
 
-interface CartItem {}
+interface CartItem {
+	product: ICartItem;
+}
 
-export const CartItem: FC<CartItem> = () => {
+export const CartItem: FC<CartItem> = ({ product }) => {
+	const dispatch = useAppDispatch();
+
 	const theme = useMantineTheme();
 	const colors = {
 		green: theme.colors.green[6],
 		white: theme.colors.gray[0],
 	};
+
+	const incrementItem = () => {
+		dispatch(addOneItem(product));
+	};
+
+	const decrementItem = () => {
+		dispatch(awayOneItem(product));
+	};
+
 	return (
 		<Card mt="xl">
-			<Group align="center">
+			<Group grow align="center">
 				<Image
 					style={{ margin: '0 auto' }}
 					height={80}
 					fit="contain"
-					src="https://pngimg.com/uploads/running_shoes/running_shoes_PNG5804.png"
+					radius={10}
+					src={product.image}
 				/>
 				<div>
-					<Highlight highlight={'Кроссовки'}>
-						Кроссовки Reebok Classic Club C 85
-					</Highlight>
+					<Text size="sm">
+						{product.category === 'woman'
+							? 'Женская обувь'
+							: product.category === 'male'
+							? 'Мужская обувь'
+							: product.category === 'child' &&
+							  'Обувь для ребенка'}{' '}
+						{product.title}
+					</Text>
+
 					<Group>
-						<Text weight={600}> 300 ₽ </Text> за шт.
+						<Text weight={600}> {product.price} ₽ </Text> за шт.
 					</Group>
 				</div>
+
 				<Group
-					mx={20}
-					style={{ backgroundColor: colors.green, borderRadius: 10 }}>
-					<Button style={{ backgroundColor: colors.green }}>
+					grow
+					style={{
+						backgroundColor: colors.green,
+						borderRadius: 10,
+					}}>
+					<Button
+						onClick={decrementItem}
+						style={{ backgroundColor: colors.green }}>
 						<Minus />
 					</Button>
-					<Text color={colors.white}>1</Text>
-					<Button style={{ backgroundColor: colors.green }}>
+					<Text align="center" color={colors.white}>
+						{product.count}
+					</Text>
+					<Button
+						onClick={incrementItem}
+						style={{ backgroundColor: colors.green }}>
 						<Plus />
 					</Button>
 				</Group>
 
-				<Title ml={60} align="right" order={2}>
-					600 ₽
+				<Title align="right" order={2}>
+					{product.totalPrice} ₽
 				</Title>
 			</Group>
 		</Card>

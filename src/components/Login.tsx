@@ -18,6 +18,14 @@ export const Login = () => {
 		},
 	});
 
+	// const register = () => {
+	// 	setLoading(true);
+	// 	setTimeout(() => {
+	// 		setLoading(false);
+	// 		nextStep();
+	// 	}, 3000);
+	// };
+
 	return (
 		<Box sx={{ maxWidth: 340 }} mx="auto">
 			<form onSubmit={form.onSubmit(values => console.log(values))}>

@@ -3,10 +3,10 @@ import React from 'react';
 import { DoorExit, Login, Sun } from 'tabler-icons-react';
 import { switchTheme } from '../store/slices/themeSlice';
 import { RootState } from '../store';
-import { Colors } from '../types/colors';
+import { Colors } from '../types/enums/colors';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { RouteNames } from '../types/router';
+import { RouteNames } from '../types/enums/router';
 
 export const UserControlPanel = () => {
 	const dispatch = useAppDispatch();
