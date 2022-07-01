@@ -24,6 +24,8 @@ import { CartButton } from '../components/CartButton';
 export default function Header() {
 	const theme = useMantineTheme();
 
+	const { username } = useAppSelector(state => state.userState.user);
+
 	return (
 		<Head height="60px" fixed pt="xs">
 			<Grid align="center" justify="space-around">
@@ -47,7 +49,7 @@ export default function Header() {
 						</Link>
 					</Navbar.Section>
 				</Grid.Col>
-				<Grid.Col span={7}>
+				<Grid.Col span={6}>
 					<Navbar.Section>
 						<Group grow>
 							<CatalogFilter />
@@ -67,14 +69,10 @@ export default function Header() {
 						</Group>
 					</Navbar.Section>
 				</Grid.Col>
-				<Grid.Col span={1}>
+				<Grid.Col span={2}>
 					<Navbar.Section>
 						<Group position="right">
-							<Avatar
-								radius="xl"
-								src={null}
-								alt="Vitaly Rtishchev"
-							/>
+							<Text>{username}</Text>
 							<UserControlPanel />
 						</Group>
 					</Navbar.Section>

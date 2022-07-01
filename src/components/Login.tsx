@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { Box, Button, Group, PasswordInput, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
+import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
+import { login } from '../store/slices/userSlice';
 
 export const Login = () => {
+	const dispatch = useAppDispatch();
+	const { loginInProgress } = useAppSelector(state => state.userState);
+
 	const schema = z.object({
 		email: z.string().email({ message: 'Неверный формат email' }),
 		password: z
@@ -18,17 +23,17 @@ export const Login = () => {
 		},
 	});
 
-	// const register = () => {
-	// 	setLoading(true);
-	// 	setTimeout(() => {
-	// 		setLoading(false);
-	// 		nextStep();
-	// 	}, 3000);
-	// };
-
 	return (
 		<Box sx={{ maxWidth: 340 }} mx="auto">
-			<form onSubmit={form.onSubmit(values => console.log(values))}>
+			<form
+				onSubmit={form.onSubmit(values => {
+					dispatch(
+						login({
+							email: values.email,
+							password: values.password,
+						}),
+					);
+				})}>
 				<TextInput
 					required
 					label="Email"
@@ -44,7 +49,9 @@ export const Login = () => {
 				/>
 
 				<Group position="right" mt="xl">
-					<Button type="submit">Submit</Button>
+					<Button loading={loginInProgress} type="submit">
+						Войти
+					</Button>
 				</Group>
 			</form>
 		</Box>

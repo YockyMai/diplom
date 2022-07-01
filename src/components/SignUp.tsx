@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Button, Group, PasswordInput, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
+import { StepperProvider } from '../pages/Auth';
+import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
+import { register } from '../store/slices/userSlice';
 
 export const SignUp = () => {
+	const { nextStep, prevStep } = useContext(StepperProvider);
+	const isLoading = useAppSelector(
+		state => state.userState.registerInProgress,
+	);
+	const dispatch = useAppDispatch();
+
 	const schema = z.object({
 		name: z
 			.string()
@@ -25,7 +34,16 @@ export const SignUp = () => {
 
 	return (
 		<Box sx={{ maxWidth: 340 }} mx="auto">
-			<form onSubmit={form.onSubmit(values => console.log(values))}>
+			<form
+				onSubmit={form.onSubmit(values =>
+					dispatch(
+						register({
+							email: values.email,
+							password: values.password,
+							username: values.name,
+						}),
+					),
+				)}>
 				<TextInput
 					required
 					label="Email"
@@ -49,7 +67,9 @@ export const SignUp = () => {
 				/>
 
 				<Group position="right" mt="xl">
-					<Button type="submit">Регистрация</Button>
+					<Button type="submit" loading={isLoading}>
+						Регистрация
+					</Button>
 				</Group>
 			</form>
 		</Box>

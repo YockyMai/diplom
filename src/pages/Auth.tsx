@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, createContext } from 'react';
 import {
 	Button,
 	Container,
@@ -6,28 +6,46 @@ import {
 	Text,
 	useMantineTheme,
 } from '@mantine/core';
-import { SignUp } from '../components/SignUp';
 import { Outlet, useLocation, useNavigate, Link } from 'react-router-dom';
-import { Login } from '../components/Login';
 import { RouteNames } from '../types/enums/router';
+import { useAppSelector } from '../hooks/react-redux';
+
+export const StepperProvider = createContext<{
+	nextStep?: () => void;
+	prevStep?: () => void;
+}>({});
 
 export const Auth: FC = () => {
-	const [activeStep, setStep] = useState<number>(0);
+	const { registerInProgress, loginInProgress, isAuth } = useAppSelector(
+		state => state.userState,
+	);
+	let location = useLocation();
+	let navigate = useNavigate();
+	const theme = useMantineTheme();
+
+	const [activeStep, setStep] = useState(
+		location.pathname === '/auth/signup' ? 0 : 1,
+	);
 
 	const nextStep = () =>
 		setStep(current => (current < 3 ? current + 1 : current));
 	const prevStep = () =>
 		setStep(current => (current > 0 ? current - 1 : current));
 
-	const theme = useMantineTheme();
-
-	let navigate = useNavigate();
+	const StepperContextValue = {
+		nextStep,
+		prevStep,
+	};
 
 	useEffect(() => {
-		if (activeStep === 0) navigate(RouteNames.SIGN_UP);
-		if (activeStep === 1) navigate(RouteNames.LOGIN);
-		if (activeStep === 2) navigate(RouteNames.MAIN);
+		if (activeStep === 0) navigate(RouteNames.SIGN_UP, { replace: true });
+		if (activeStep === 1) navigate(RouteNames.LOGIN, { replace: true });
+		if (activeStep === 2) navigate(RouteNames.MAIN, { replace: true });
 	}, [activeStep]);
+
+	useEffect(() => {
+		if (isAuth === true) navigate('/');
+	}, [isAuth]);
 
 	return (
 		<div>
@@ -37,13 +55,17 @@ export const Auth: FC = () => {
 				onStepClick={setStep}
 				breakpoint="sm">
 				<Stepper.Step
+					loading={registerInProgress}
 					label="Шаг первый"
 					description="Создайте аккаунт"
+					// onClick={() => navigate()}
 				/>
 
 				<Stepper.Step
+					loading={loginInProgress}
 					label="Шаг второй"
 					description="Войдите в аккаунт"
+					// onClick={() => navigate()}
 				/>
 
 				<Stepper.Step
@@ -53,7 +75,10 @@ export const Auth: FC = () => {
 				/>
 			</Stepper>
 			<Container py="8%" size="md" mt="lg">
-				<Outlet />
+				<StepperProvider.Provider value={StepperContextValue}>
+					<Outlet context={nextStep} />
+				</StepperProvider.Provider>
+
 				<Link to="/">
 					<Button
 						variant="subtle"
