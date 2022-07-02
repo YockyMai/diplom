@@ -33,7 +33,7 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 
 	return (
 		<div style={{ width: 300, marginTop: 30 }}>
-			<Link to={id}>
+			<Link to={`/catalog/product/${id}`}>
 				<Card radius="lg" shadow="sm" p="lg">
 					<Card.Section
 						style={{
@@ -41,7 +41,7 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 							flexDirection: 'column',
 							justifyContent: 'center',
 						}}>
-						<Center>
+						<Center my={10}>
 							<Image src={product.image} width={280} />
 						</Center>
 					</Card.Section>
@@ -85,7 +85,7 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 						</Tooltip>
 					</SimpleGrid>
 
-					<Text align="right" mt="lg" size="md" weight={500}>
+					<Text align="right" mt="lg" size="lg" weight={500}>
 						{product.price} ₽
 					</Text>
 				</Card>

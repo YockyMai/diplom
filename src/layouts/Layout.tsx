@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from '../../modules/Header';
-import { MyFooter } from '../MyFooter';
+import Header from '../modules/Header';
+import { MyFooter } from '../components/MyFooter';
 
 interface Layout {}
 

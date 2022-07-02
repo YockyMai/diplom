@@ -10,13 +10,14 @@ import { RouteNames } from './types/enums/router';
 import { Catalog } from './pages/Catalog';
 
 import { Auth } from './pages/Auth';
-import { Layout } from './components/layouts/Layout';
+import { Layout } from './layouts/Layout';
 import { SignUp } from './components/SignUp';
 import { Login } from './components/Login';
 
 import { NotificationsProvider } from '@mantine/notifications';
 import { Product } from './pages/Product';
 import { check } from './store/slices/userSlice';
+import { TopScroll } from './components/TopScroll';
 
 function App() {
 	const theme = useAppSelector(state => state.themeState.theme);
@@ -38,9 +39,12 @@ function App() {
 					<Routes>
 						<Route path={RouteNames.MAIN} element={<Layout />}>
 							<Route index element={<Main />} />
-							<Route path={`${RouteNames.CATALOG}/*`}>
+							<Route path={`catalog`}>
 								<Route index element={<Catalog />} />
-								<Route path=":id" element={<Product />} />
+								<Route
+									path="product/:id"
+									element={<Product />}
+								/>
 							</Route>
 							<Route path={RouteNames.CART} element={<Cart />} />
 						</Route>
@@ -57,6 +61,7 @@ function App() {
 							/>
 						</Route>
 					</Routes>
+					<TopScroll />
 				</div>
 			</NotificationsProvider>
 		</MantineProvider>
