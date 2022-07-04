@@ -1,11 +1,13 @@
 import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 
+export const $SERVER_URL = 'http://localhost:7096/';
+
 const $host = axios.create({
-	baseURL: 'http://localhost:7096/',
+	baseURL: $SERVER_URL,
 });
 
 const $authHost = axios.create({
-	baseURL: 'http://localhost:7096/',
+	baseURL: $SERVER_URL,
 });
 
 interface myAxiosHeaders extends AxiosRequestHeaders {

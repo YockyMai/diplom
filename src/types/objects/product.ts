@@ -1,8 +1,16 @@
 export interface IProduct {
-	id: string;
-	title: string;
-	image?: string;
+	id: number;
+	name: string;
 	price: number;
-	discountPercent?: number;
-	category: 'woman' | 'male' | 'child';
+	rating: number;
+	img?: string | null;
+	type: {
+		id: number;
+		name: string;
+	};
+	brand: {
+		id: number;
+		name: string;
+	};
+	info?: [];
 }

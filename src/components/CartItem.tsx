@@ -45,17 +45,11 @@ export const CartItem: FC<CartItem> = ({ product }) => {
 					height={80}
 					fit="contain"
 					radius={10}
-					src={product.image}
+					src={product.img ? product.img : ''}
 				/>
 				<div>
 					<Text size="sm">
-						{product.category === 'woman'
-							? 'Женская обувь'
-							: product.category === 'male'
-							? 'Мужская обувь'
-							: product.category === 'child' &&
-							  'Обувь для ребенка'}{' '}
-						{product.title}
+						{product.brand.name} {product.name}
 					</Text>
 
 					<Group>

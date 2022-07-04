@@ -1,81 +1,98 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { number } from 'zod';
+import { $host } from '../../http';
 import { IProduct } from '../../types/objects/product';
+import { ISearchParams } from '../../types/objects/searchParams';
 
 export interface productsState {
+	count: number;
 	items: IProduct[];
+	product: {
+		item: IProduct | null;
+		isLoading: boolean;
+		status: 'ok' | 'failed' | null;
+	};
 }
 
 const initialState: productsState = {
-	items: [
-		{
-			id: '2',
-			title: 'Reebok Classic Club C 85',
-			price: 10999,
-			category: 'male',
-			image: 'https://static.street-beat.ru/upload/resize_cache/iblock/408/500_500_1/4085f347fa8f700a3f7b35e24215d4d4.jpg',
-		},
-		{
-			id: '3',
-			title: 'Adidas Originals Ozelia',
-			price: 11999,
-			category: 'male',
-			image: 'https://static.street-beat.ru/upload/resize_cache/iblock/caa/500_500_1/caa42489e39beeb9d64b54f4a7078182.jpg',
-			discountPercent: 3,
-		},
-
-		{
-			id: '2',
-			title: 'Reebok Classic Club C 85',
-			price: 10999,
-			category: 'male',
-			image: 'https://static.street-beat.ru/upload/resize_cache/iblock/408/500_500_1/4085f347fa8f700a3f7b35e24215d4d4.jpg',
-		},
-		{
-			id: '3',
-			title: 'Adidas Originals Ozelia',
-			price: 11999,
-			category: 'male',
-			image: 'https://static.street-beat.ru/upload/resize_cache/iblock/caa/500_500_1/caa42489e39beeb9d64b54f4a7078182.jpg',
-			discountPercent: 3,
-		},
-		{
-			id: '2',
-			title: 'Reebok Classic Club C 85',
-			price: 10999,
-			category: 'male',
-			image: 'https://static.street-beat.ru/upload/resize_cache/iblock/408/500_500_1/4085f347fa8f700a3f7b35e24215d4d4.jpg',
-		},
-		{
-			id: '3',
-			title: 'Adidas Originals Ozelia',
-			price: 11999,
-			category: 'male',
-			image: 'https://static.street-beat.ru/upload/resize_cache/iblock/caa/500_500_1/caa42489e39beeb9d64b54f4a7078182.jpg',
-			discountPercent: 3,
-		},
-
-		{
-			id: '2',
-			title: 'Reebok Classic Club C 85',
-			price: 10999,
-			category: 'male',
-			image: 'https://static.street-beat.ru/upload/resize_cache/iblock/408/500_500_1/4085f347fa8f700a3f7b35e24215d4d4.jpg',
-		},
-		{
-			id: '3',
-			title: 'Adidas Originals Ozelia',
-			price: 11999,
-			category: 'male',
-			image: 'https://static.street-beat.ru/upload/resize_cache/iblock/caa/500_500_1/caa42489e39beeb9d64b54f4a7078182.jpg',
-			discountPercent: 3,
-		},
-	],
+	count: 0,
+	items: [],
+	product: {
+		item: null,
+		isLoading: false,
+		status: null,
+	},
 };
+
+export const getAllProducts = createAsyncThunk(
+	'/product/getAll',
+	async (params: ISearchParams, { rejectWithValue }) => {
+		try {
+			const limit = 8;
+			let { brandId, typeId, minPrice, maxPrice, currentPage } = params;
+
+			const response = await $host.get(`/api/product`, {
+				params: {
+					brandId: brandId == '0' ? null : brandId,
+					typeId: typeId == '0' ? null : typeId,
+					limit,
+					page: currentPage,
+					minPrice,
+					maxPrice,
+				},
+			});
+
+			if (response.status !== 200) {
+				throw new Error('Server Error');
+			}
+
+			return response.data;
+		} catch (error) {
+			console.log(error);
+			return rejectWithValue(error);
+		}
+	},
+);
+
+export const getOneProduct = createAsyncThunk(
+	'product/getOne',
+	async (id: number, { rejectWithValue }) => {
+		try {
+			const response = await $host.get(`/api/product/${id}`);
+
+			if (response.status !== 200) {
+				throw new Error('Server Error');
+			}
+
+			return response.data;
+		} catch (error: any) {
+			return rejectWithValue(error.message);
+		}
+	},
+);
 
 export const productSlice = createSlice({
 	name: 'productSlice',
 	initialState,
 	reducers: {},
+	extraReducers: builder => {
+		builder.addCase(getAllProducts.fulfilled, (state, action) => {
+			state.count = action.payload.count;
+			state.items = action.payload.rows;
+		});
+
+		builder.addCase(getOneProduct.pending, state => {
+			state.product.isLoading = true;
+		});
+		builder.addCase(getOneProduct.fulfilled, (state, action) => {
+			state.product.item = action.payload;
+			state.product.isLoading = false;
+			state.product.status = 'ok';
+		});
+		builder.addCase(getOneProduct.rejected, state => {
+			state.product.status = 'failed';
+		});
+	},
 });
 
 export const {} = productSlice.actions;

@@ -14,6 +14,7 @@ import { showNotification } from '@mantine/notifications';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
+import { $SERVER_URL } from '../http';
 import { addToCart } from '../store/slices/cartSlice';
 import { IProduct } from '../types/objects/product';
 
@@ -29,12 +30,14 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 			? theme.colors.dark[1]
 			: theme.colors.gray[7];
 
-	const id = '10';
-
 	return (
 		<div style={{ width: 300, marginTop: 30 }}>
-			<Link to={`/catalog/product/${id}`}>
-				<Card radius="lg" shadow="sm" p="lg">
+			<Link to={`/catalog/product/${product.id}`}>
+				<Card
+					style={{ height: '500px' }}
+					radius="lg"
+					shadow="sm"
+					p="lg">
 					<Card.Section
 						style={{
 							display: 'flex',
@@ -42,48 +45,59 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 							justifyContent: 'center',
 						}}>
 						<Center my={10}>
-							<Image src={product.image} width={280} />
+							<Image
+								src={
+									product.img
+										? `${$SERVER_URL}${product.img}`
+										: ''
+								}
+								width={280}
+							/>
 						</Center>
 					</Card.Section>
 
 					<Group position="apart" style={{ marginBottom: 20 }}>
-						<Text weight={500}>{product.title}</Text>
+						<Text weight={500}>{product.name}</Text>
 					</Group>
 
 					<Text
 						size="sm"
 						align="center"
 						style={{ color: secondaryColor, lineHeight: 1.5 }}>
-						{product.category === 'woman'
-							? 'Женская обувь'
-							: product.category === 'male'
-							? 'Мужская обувь'
-							: product.category === 'child' &&
-							  'Обувь для ребенка'}{' '}
-						{product.title}
+						{product.name}
 					</Text>
 
-					<SimpleGrid mt="lg" cols={4}>
-						{product.discountPercent && (
-							<Tooltip label="На данный товар сейчас действует скидка">
+					<Group mt="lg">
+						{product.brand.name && (
+							<Tooltip
+								label={`Производитель ${product.brand.name}`}>
 								<Badge
 									style={{ fontWeight: 400 }}
 									variant="gradient"
-									gradient={{ from: 'orange', to: 'red' }}>
-									Скидка
+									gradient={{
+										from: 'orange',
+										to: 'red',
+									}}>
+									{product.brand.name}
 								</Badge>
 							</Tooltip>
 						)}
 
-						<Tooltip label="Свежий товар!">
-							<Badge
-								style={{ fontWeight: 400 }}
-								variant="gradient"
-								gradient={{ from: 'green', to: 'lime' }}>
-								Новинка
-							</Badge>
-						</Tooltip>
-					</SimpleGrid>
+						{product.type.name && (
+							<Tooltip
+								label={`Этот товар относится к категории "${product.type.name}"`}>
+								<Badge
+									style={{ fontWeight: 400 }}
+									variant="gradient"
+									gradient={{
+										from: 'green',
+										to: 'lime',
+									}}>
+									{product.type.name}
+								</Badge>
+							</Tooltip>
+						)}
+					</Group>
 
 					<Text align="right" mt="lg" size="lg" weight={500}>
 						{product.price} ₽

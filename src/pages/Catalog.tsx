@@ -7,36 +7,135 @@ import {
 	Stack,
 	Button,
 	Pagination,
+	Select,
 } from '@mantine/core';
-import React, { FC } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useWindowScroll } from '@mantine/hooks';
+import qs from 'qs';
+import React, { FC, useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { BucketOff } from 'tabler-icons-react';
 import { MyRangeSlider } from '../components/MyRangeSlider';
 import { ProductCard } from '../components/ProductCard';
 import { TopScroll } from '../components/TopScroll';
-import { useAppSelector } from '../hooks/react-redux';
+import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
+import {
+	setBrandId,
+	setCategoryId,
+	setFilters,
+	setSearchValue,
+	resetFilters,
+	setCurrentPage,
+} from '../store/slices/filterSlice';
+import { getAllProducts } from '../store/slices/productSlice';
 
 interface Catalog {
 	category?: string;
 }
 
+const categoryData = [
+	{ value: '1', label: 'Мужская обувь' },
+	{ value: '2', label: 'Женская обувь' },
+	{ value: '3', label: 'Детская обувь' },
+];
+
+const brandData = [
+	{ value: '1', label: 'Nike' },
+	{ value: '2', label: 'Adidas' },
+	{ value: '3', label: 'New Balance' },
+];
+
 export const Catalog: FC<Catalog> = () => {
-	const products = useAppSelector(state => state.productsState.items);
+	const dispatch = useAppDispatch();
+	const { items, count } = useAppSelector(state => state.productsState);
+	const navigate = useNavigate();
+	const [scroll, scrollTo] = useWindowScroll();
 
-	let [searchParams, setSearchParams] = useSearchParams();
+	const { brandId, typeId, currentPage, searchValue, minPrice, maxPrice } =
+		useAppSelector(state => state.filterState);
+	const [searchField, setSearchField] = useState<string>('');
 
-	let params = searchParams.get('id');
+	useEffect(() => {
+		if (window.location.search) {
+			setSearchValue(window.location.search);
+			const currentFilterValue = qs.parse(
+				window.location.search.replace('?', ''),
+			);
 
-	const categoryData = [
-		{ value: '1', label: 'Мужская обувь' },
-		{ value: '2', label: 'Женсткая обувь' },
-		{ value: '3', label: 'Детская обувь' },
-	];
+			dispatch(setFilters({ ...currentFilterValue }));
+			dispatch(
+				getAllProducts({
+					...currentFilterValue,
+				}),
+			);
+		} else {
+			dispatch(getAllProducts({}));
+		}
+	}, []); // определить есть ли параметры поиска
 
-	const brandData = [
-		{ value: '1', label: 'Nike' },
-		{ value: '2', label: 'Adidas' },
-		{ value: '3', label: 'Jordan' },
-	];
+	useEffect(() => {
+		const searchParams = qs.stringify({
+			brandId,
+			typeId,
+			currentPage,
+			searchValue,
+			minPrice,
+			maxPrice,
+		});
+		setSearchField(searchParams);
+	}, [brandId, typeId, currentPage, searchValue, minPrice, maxPrice]); // установить параметры поиска
+
+	const handelSetCategory = (categoryId: string) => {
+		dispatch(setCategoryId(categoryId));
+	};
+
+	const handelSetBrand = (brandId: string) => {
+		dispatch(setBrandId(brandId));
+	};
+
+	const applyFilter = () => {
+		dispatch(setCurrentPage('1'));
+		navigate(
+			`?${searchField.replace(
+				`currentPage=${currentPage}`,
+				`currentPage=1`,
+			)}`,
+		);
+		dispatch(
+			getAllProducts({
+				brandId,
+				typeId,
+				currentPage: '1',
+				minPrice,
+				maxPrice,
+				searchValue,
+			}),
+		);
+	};
+
+	const resetFilter = () => {
+		navigate(`/catalog`);
+		dispatch(resetFilters());
+		dispatch(getAllProducts({}));
+	};
+
+	const handleChangePage = (page: number) => {
+		dispatch(setCurrentPage(Math.ceil(page)));
+		console.log(page);
+		navigate(
+			`?${searchField.replace(
+				`currentPage=${currentPage}`,
+				`currentPage=${page}`,
+			)}`,
+		);
+		dispatch(
+			getAllProducts({
+				brandId,
+				typeId,
+				currentPage: String(page),
+			}),
+		);
+		scrollTo({ y: 0 });
+	};
 
 	return (
 		<Grid
@@ -57,36 +156,70 @@ export const Catalog: FC<Catalog> = () => {
 
 						<MyRangeSlider />
 
-						<MultiSelect
+						<Select
 							data={categoryData}
 							label="Категория"
 							placeholder="Выберите категорию"
+							value={typeId}
+							onChange={category => {
+								category && handelSetCategory(category);
+							}}
+							allowDeselect
 						/>
-						<MultiSelect
+
+						<Select
 							data={brandData}
 							label="Бренд"
 							placeholder="Выберете бренд"
+							value={brandId}
+							onChange={brand => {
+								brand && handelSetBrand(brand);
+							}}
+							allowDeselect
 						/>
-						<Button mt={10}>Применить фильтр</Button>
+
+						<Button color="red" onClick={resetFilter} mt={10}>
+							Очистить фильтр
+						</Button>
+
+						<Button onClick={applyFilter} mt={10}>
+							Применить фильтр
+						</Button>
 					</Stack>
 				</Center>
 			</Grid.Col>
+
 			<Grid.Col span={9}>
 				<Center>
-					<Stack align="flex-end">
-						<SimpleGrid
-							breakpoints={[
-								{ maxWidth: 1480, cols: 3, spacing: 'md' },
-								{ maxWidth: 1040, cols: 2, spacing: 'sm' },
-								{ maxWidth: 800, cols: 1 },
-							]}
-							cols={4}>
-							{products.map(item => (
-								<ProductCard product={item} />
-							))}
-						</SimpleGrid>
-						<Pagination py="xl" total={10} />
-					</Stack>
+					{items.length <= 0 ? (
+						<Stack mt="10%" align="center">
+							<BucketOff color="#e04343" size={100} />
+							<Title align="center" style={{ width: '65%' }}>
+								Совпадений по вашему запросу не найдено 😞,
+								попробуйте другой фильтр
+							</Title>
+						</Stack>
+					) : (
+						<Stack align="flex-end">
+							<SimpleGrid
+								breakpoints={[
+									{ maxWidth: 1480, cols: 3, spacing: 'md' },
+									{ maxWidth: 1040, cols: 2, spacing: 'sm' },
+									{ maxWidth: 800, cols: 1 },
+								]}
+								cols={4}>
+								{items.map(item => (
+									<ProductCard product={item} />
+								))}
+							</SimpleGrid>
+							<Pagination
+								page={Number(currentPage)}
+								onChange={handleChangePage}
+								py="xl"
+								total={Math.ceil(count / 8)}
+							/>
+						</Stack>
+					)}
 				</Center>
 			</Grid.Col>
 		</Grid>

@@ -1,16 +1,12 @@
-import {
-	AsyncThunkAction,
-	createAsyncThunk,
-	createSlice,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
 import { $authHost, $host } from '../../http';
 import { postUserData } from '../../types/api/user';
 import jwt_decode from 'jwt-decode';
 import { IUser } from '../../types/objects/user';
 import { showNotification } from '@mantine/notifications';
 import { AxiosError } from 'axios';
+import { ColorScheme } from '@mantine/core';
 
 export interface UserState {
 	currentStep: number;
@@ -44,8 +40,6 @@ export const register = createAsyncThunk(
 			if (response.status !== 200) {
 				throw new Error(response.data.message);
 			}
-
-			console.log(response);
 
 			return response;
 		} catch (error) {
@@ -85,8 +79,6 @@ export const check = createAsyncThunk(
 			if (response.status !== 200) {
 				throw new Error(response.data.message);
 			}
-
-			console.log(response);
 
 			return response;
 		} catch (error) {

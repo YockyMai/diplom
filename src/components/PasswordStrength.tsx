@@ -35,8 +35,6 @@ export function PasswordStrength() {
 	const strength = getStrength(value);
 	const color = strength === 100 ? 'teal' : strength > 50 ? 'yellow' : 'red';
 
-	console.log(strength);
-
 	return (
 		<Popover
 			opened={popoverOpened}

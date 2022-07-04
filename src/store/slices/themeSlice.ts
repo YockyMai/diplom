@@ -1,13 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { ColorScheme } from '@mantine/core';
+import { $authHost } from '../../http';
 
 export interface ThemeState {
 	theme: ColorScheme;
 }
 
 const initialState: ThemeState = {
-	theme: 'light',
+	theme: (localStorage.getItem('theme') as ColorScheme) || 'light',
 };
 
 export const themeSlice = createSlice({
@@ -15,9 +16,13 @@ export const themeSlice = createSlice({
 	initialState,
 	reducers: {
 		switchTheme: state => {
-			state.theme === 'light'
-				? (state.theme = 'dark')
-				: (state.theme = 'light');
+			if (state.theme === 'dark') {
+				state.theme = 'light';
+				localStorage.setItem('theme', 'light');
+			} else {
+				state.theme = 'dark';
+				localStorage.setItem('theme', 'dark');
+			}
 		},
 	},
 });

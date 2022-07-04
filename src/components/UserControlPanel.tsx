@@ -1,7 +1,6 @@
 import { ActionIcon, ColorScheme, Menu } from '@mantine/core';
 import React from 'react';
 import { DoorExit, Login, NewSection, Sun } from 'tabler-icons-react';
-import { switchTheme } from '../store/slices/themeSlice';
 import { RootState } from '../store';
 import { Colors } from '../types/enums/colors';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
@@ -9,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { RouteNames } from '../types/enums/router';
 import { signOut } from '../store/slices/userSlice';
 import { showNotification } from '@mantine/notifications';
+import { switchTheme } from '../store/slices/themeSlice';
 
 export const UserControlPanel = () => {
 	const dispatch = useAppDispatch();
