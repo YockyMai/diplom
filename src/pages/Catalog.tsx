@@ -33,15 +33,18 @@ interface Catalog {
 }
 
 const categoryData = [
+	{ value: '0', label: 'Без разницы' },
 	{ value: '1', label: 'Мужская обувь' },
 	{ value: '2', label: 'Женская обувь' },
 	{ value: '3', label: 'Детская обувь' },
 ];
 
 const brandData = [
+	{ value: '0', label: 'Без разницы' },
 	{ value: '1', label: 'Nike' },
 	{ value: '2', label: 'Adidas' },
 	{ value: '3', label: 'New Balance' },
+	{ value: '4', label: 'Котофей' },
 ];
 
 export const Catalog: FC<Catalog> = () => {
@@ -209,7 +212,7 @@ export const Catalog: FC<Catalog> = () => {
 								]}
 								cols={4}>
 								{items.map(item => (
-									<ProductCard product={item} />
+									<ProductCard key={item.id} product={item} />
 								))}
 							</SimpleGrid>
 							<Pagination

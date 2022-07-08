@@ -9,17 +9,22 @@ import {
 	List,
 	Mark,
 	Modal,
+	Select,
+	SelectItem,
 	Skeleton,
 	Stack,
 	Text,
 	Title,
 } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ShoppingCartPlus, Star } from 'tabler-icons-react';
 import { ImageServer } from '../components/ImageServer';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
+import { addProductToCart } from '../store/slices/cartSlice';
 import { getOneProduct } from '../store/slices/productSlice';
+import currencyStringsFormatter from '../utils/currencyStringsFormatter';
 
 const availableRating = [1, 2, 3, 4, 5];
 
@@ -32,8 +37,13 @@ export const Product = () => {
 	);
 	const { isAuth } = useAppSelector(state => state.userState);
 
-	const [errorModal, setOpenErrorModal] = useState(false);
-	const [cartErrorModal, setCartErrorModal] = useState(false);
+	const [errorModal, setOpenErrorModal] = useState(false); // Если не существует
+	const [cartErrorModal, setCartErrorModal] = useState(false); // Если не авторизован
+
+	const [selectedSize, setSelectedSize] = useState('');
+	const [sizeError, setSizeError] = useState('');
+
+	console.log(selectedSize);
 
 	useEffect(() => {
 		dispatch(getOneProduct(Number(id)));
@@ -45,11 +55,36 @@ export const Product = () => {
 		}
 	}, [status]);
 
-	const addProductToCart = () => {
+	const addProduct = () => {
 		if (!isAuth) {
 			setCartErrorModal(true);
+		} else if (!selectedSize) {
+			setSizeError('Вы должны выбрать размер');
+		} else if (item) {
+			dispatch(
+				addProductToCart({
+					productId: item?.id,
+					sizeId: Number(selectedSize),
+				}),
+			);
+			setSizeError('');
+			showNotification({
+				title: `Успешно!`,
+				message: `Товар ${item?.name} добавлен в корзину`,
+			});
 		}
 	};
+
+	const dataSizes: SelectItem[] = [];
+	item?.sizes.forEach(obj => {
+		dataSizes.push({
+			label: `Размер: ${obj.size.size}RU, Осталось ${obj.count} экземпляров`,
+			value: `${obj.sizeId}`,
+			disabled: obj.count <= 0 ? true : false,
+		});
+	});
+
+	console.log(dataSizes);
 
 	return (
 		<Container style={{ marginTop: '100px' }} size="xl">
@@ -82,7 +117,7 @@ export const Product = () => {
 									<Card.Section pb={10}>
 										<Group align="center">
 											{availableRating.map((_, index) => (
-												<>
+												<div key={index}>
 													{index + 1 <=
 													item.rating ? (
 														<Star
@@ -96,16 +131,20 @@ export const Product = () => {
 															color="#f5cb25"
 														/>
 													)}
-												</>
+												</div>
 											))}
-											Средний рейтинг :{' '}
+											Средний рейтинг:
 											{item.rating
 												? item.rating
 												: 'не оцененно'}
 										</Group>
 									</Card.Section>
 									<Card.Section py={15}>
-										<Title order={2}>{item.price}₽</Title>
+										<Title order={2}>
+											{currencyStringsFormatter.format(
+												item.price,
+											)}
+										</Title>
 									</Card.Section>
 
 									<Card.Section>
@@ -128,6 +167,19 @@ export const Product = () => {
 												margin: '15px auto',
 											}}
 										/>
+										<Select
+											required
+											error={sizeError}
+											value={selectedSize}
+											onChange={value => {
+												if (value)
+													setSelectedSize(value);
+											}}
+											label="Доступные размеры"
+											placeholder="Выберите размер"
+											mb="xl"
+											data={dataSizes}
+										/>
 										<Button
 											style={{
 												width: '100%',
@@ -139,7 +191,7 @@ export const Product = () => {
 												to: '#ec8c69',
 												deg: 35,
 											}}
-											onClick={addProductToCart}
+											onClick={addProduct}
 											rightIcon={<ShoppingCartPlus />}>
 											Добавить в коризну
 										</Button>

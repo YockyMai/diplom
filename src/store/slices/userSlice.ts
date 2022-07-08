@@ -79,8 +79,10 @@ export const check = createAsyncThunk(
 			if (response.status !== 200) {
 				throw new Error(response.data.message);
 			}
+			localStorage.setItem('token', response.data);
+			const user: IUser = jwt_decode(response.data);
 
-			return response;
+			return user;
 		} catch (error) {
 			if (error instanceof AxiosError)
 				return rejectWithValue(error.response?.data.message);
@@ -146,13 +148,14 @@ export const userSlice = createSlice({
 			localStorage.removeItem('token');
 		});
 
-		builder.addCase(check.fulfilled, (state, action) => {
-			localStorage.setItem('token', action.payload?.data);
-			const user: IUser = jwt_decode(action.payload?.data);
-			state.user = user;
-			state.isAuth = true;
-			state.registerInProgress = false;
-		});
+		builder.addCase(
+			check.fulfilled,
+			(state, action: PayloadAction<any>) => {
+				state.user = action.payload;
+				state.isAuth = true;
+				state.registerInProgress = false;
+			},
+		);
 		builder.addCase(check.rejected, state => {
 			state.user = {};
 			localStorage.removeItem('token');

@@ -1,51 +1,122 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICartItem } from '../../types/objects/cartItem';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
+import { $authHost } from '../../http';
+import { IProduct } from '../../types/objects/product';
 
 export interface cartState {
-	items: ICartItem[];
+	items: getCartRes[];
 	totalPrice: number;
-	totalCount: number;
 }
 
 const initialState: cartState = {
 	items: [],
 	totalPrice: 0,
-	totalCount: 0,
 };
+
+export interface getCartRes {
+	createdAt: string;
+	updatedAt: string;
+	product: IProduct;
+	size?: {
+		id: number;
+		size: number;
+	};
+}
+export const getCart = createAsyncThunk(
+	'cartSlice/getCart',
+	async (id: number, { rejectWithValue }) => {
+		try {
+			const response: AxiosResponse<getCartRes[]> = await $authHost.get(
+				`api/basket/${id}`,
+			);
+
+			if (response.status !== 200) {
+				throw new Error('Server Error');
+			}
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	},
+);
+
+export const addProductToCart = createAsyncThunk(
+	'cartSlice/addProductToCart',
+	async (
+		productObj: { productId: number; sizeId: number },
+		{ rejectWithValue },
+	) => {
+		try {
+			const response: AxiosResponse<getCartRes> = await $authHost.post(
+				'/api/basket/create',
+				{
+					productId: productObj.productId,
+					sizeId: productObj.sizeId,
+				},
+			);
+
+			if (response.status !== 200) {
+				throw new Error('Server Error');
+			}
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	},
+);
+
+export const placeOrder = createAsyncThunk(
+	'cartSlice/placeOrder',
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await $authHost.post('api/order/');
+
+			if (response.status !== 200) {
+				throw new Error('Server Error');
+			}
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	},
+);
 
 export const cartSlice = createSlice({
 	name: 'cartSlice',
 	initialState,
 	reducers: {
 		payment: () => {},
-		addToCart: (state, action: PayloadAction<ICartItem>) => {
+	},
+	extraReducers(builder) {
+		builder.addCase(getCart.fulfilled, (state, action) => {
+			let totalPrice = 0;
+			action.payload.forEach(element => {
+				totalPrice = totalPrice + element.product.price;
+			});
+
+			state.totalPrice = totalPrice;
+			state.items = action.payload;
+		});
+
+		builder.addCase(addProductToCart.fulfilled, (state, action) => {
 			state.items.push(action.payload);
-			state.totalPrice = state.totalPrice + action.payload.price;
-			++state.totalCount;
-		},
-		addOneItem: (state, action: PayloadAction<ICartItem>) => {
-			state.items.forEach(el => {
-				if (el.id === action.payload.id) {
-					el.count = ++el.count;
-					el.totalPrice = el.totalPrice + el.price;
-					state.totalPrice = state.totalPrice + el.price;
-					++state.totalCount;
-				}
-			});
-		},
-		awayOneItem: (state, action: PayloadAction<ICartItem>) => {
-			state.items.forEach(el => {
-				if (el.id === action.payload.id && el.count > 1) {
-					el.count = --el.count;
-					el.totalPrice = el.totalPrice - el.price;
-					state.totalPrice = state.totalPrice - el.price;
-					--state.totalCount;
-				}
-			});
-		},
+			console.log(action.payload);
+			state.totalPrice = state.totalPrice + action.payload.product.price;
+		});
+
+		builder.addCase(placeOrder.fulfilled, state => {
+			state.totalPrice = 0;
+			state.items = [];
+		});
+
+		builder.addCase(placeOrder.rejected, state => {
+			alert('ОШИБКА МИНУС ДЕНЬГИ БЫДЛО');
+		});
 	},
 });
 
-export const { payment, addToCart, addOneItem, awayOneItem } =
-	cartSlice.actions;
+export const { payment } = cartSlice.actions;
 export default cartSlice.reducer;

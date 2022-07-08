@@ -18,14 +18,20 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { Product } from './pages/Product';
 import { check } from './store/slices/userSlice';
 import { TopScroll } from './components/TopScroll';
+import { getCart } from './store/slices/cartSlice';
 
 function App() {
 	const theme = useAppSelector(state => state.themeState.theme);
+	const userId = useAppSelector(state => state.userState.user.id);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		dispatch(check());
 	}, []);
+
+	useEffect(() => {
+		if (userId) dispatch(getCart(userId)); //getCart
+	}, [userId]);
 
 	return (
 		<MantineProvider

@@ -2,6 +2,7 @@ import { RangeSlider, Text } from '@mantine/core';
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
 import { setPriceRange } from '../store/slices/filterSlice';
+import currencyStringsFormatter from '../utils/currencyStringsFormatter';
 
 export const MyRangeSlider = () => {
 	const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ export const MyRangeSlider = () => {
 		{ value: 100000, label: '100 000₽' },
 	];
 
-	const changePriceRange = (range: any) => {
+	const changePriceRange = (range: number[]) => {
 		dispatch(setPriceRange([range[0], range[1]]));
 	};
 	return (
@@ -21,7 +22,7 @@ export const MyRangeSlider = () => {
 			<Text>Цена</Text>
 			<RangeSlider
 				marks={marks}
-				label={val => `${val}₽`}
+				label={val => `${currencyStringsFormatter.format(val)}`}
 				min={0}
 				step={1000}
 				max={100000}

@@ -8,11 +8,11 @@ import { RouteNames } from '../types/enums/router';
 interface CartButton {}
 
 export const CartButton: FC<CartButton> = () => {
-	const totalCount = useAppSelector(state => state.cartState.totalCount);
+	const totalCount = useAppSelector(state => state.cartState.items.length);
 
 	return (
 		<Link to={RouteNames.CART}>
-			<Indicator label={totalCount} size={22}>
+			<Indicator label={totalCount} size={18}>
 				<Button
 					variant="subtle"
 					color="green"

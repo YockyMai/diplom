@@ -1,87 +1,82 @@
 import {
 	Button,
 	Card,
-	Container,
+	Center,
 	Group,
-	Highlight,
-	Image,
 	Text,
 	Title,
 	useMantineTheme,
+	Mark,
+	ThemeIcon,
+	Grid,
+	ActionIcon,
 } from '@mantine/core';
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { Minus, Plus } from 'tabler-icons-react';
+import { Minus, Plus, Trash } from 'tabler-icons-react';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
-import { addOneItem, awayOneItem } from '../store/slices/cartSlice';
-import { ICartItem } from '../types/objects/cartItem';
+import { getCartRes } from '../store/slices/cartSlice';
+import currencyStringsFormatter from '../utils/currencyStringsFormatter';
+import { ImageServer } from './ImageServer';
 
 interface CartItem {
-	product: ICartItem;
+	cartItem: getCartRes;
 }
 
-export const CartItem: FC<CartItem> = ({ product }) => {
+export const CartItem: FC<CartItem> = ({ cartItem }) => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
-	const theme = useMantineTheme();
-	const colors = {
-		green: theme.colors.green[6],
-		white: theme.colors.gray[0],
-	};
-
-	const incrementItem = () => {
-		dispatch(addOneItem(product));
-	};
-
-	const decrementItem = () => {
-		dispatch(awayOneItem(product));
+	const findSimilarProducts = () => {
+		navigate(
+			`/catalog?brandId=${cartItem.product.brand.id}&typeId=${cartItem.product.type.id}`,
+		);
 	};
 
 	return (
 		<Card mt="xl">
-			<Group grow align="center">
-				<Image
-					style={{ margin: '0 auto' }}
-					height={80}
-					fit="contain"
-					radius={10}
-					src={product.img ? product.img : ''}
-				/>
-				<div>
-					<Text size="sm">
-						{product.brand.name} {product.name}
-					</Text>
+			<Grid align="center" justify="space-between">
+				<Grid.Col span={2}>
+					{cartItem.product.img ? (
+						<ImageServer height={100} src={cartItem.product.img} />
+					) : (
+						<Text>Нет изображения</Text>
+					)}
+				</Grid.Col>
+				<Grid.Col span={4}>
+					<div>
+						<Text size="sm">
+							<Mark>{cartItem.product.brand.name}</Mark>
+							{' ' + cartItem.product.name}
+						</Text>
 
-					<Group>
-						<Text weight={600}> {product.price} ₽ </Text> за шт.
+						<Group>
+							Размер :
+							<Text weight={600}>
+								{cartItem.size && cartItem.size.size}RU
+							</Text>
+						</Group>
+					</div>
+				</Grid.Col>
+				<Grid.Col span={2}>
+					<Title align="right" order={2}>
+						{currencyStringsFormatter.format(
+							cartItem.product.price,
+						)}
+					</Title>
+				</Grid.Col>
+				<Grid.Col span={3}>
+					<Group position="center" align="center">
+						<Button onClick={findSimilarProducts}>
+							Найти похожие
+						</Button>
+						<ActionIcon color="red">
+							<Trash />
+						</ActionIcon>
 					</Group>
-				</div>
-
-				<Group
-					grow
-					style={{
-						backgroundColor: colors.green,
-						borderRadius: 10,
-					}}>
-					<Button
-						onClick={decrementItem}
-						style={{ backgroundColor: colors.green }}>
-						<Minus />
-					</Button>
-					<Text align="center" color={colors.white}>
-						{product.count}
-					</Text>
-					<Button
-						onClick={incrementItem}
-						style={{ backgroundColor: colors.green }}>
-						<Plus />
-					</Button>
-				</Group>
-
-				<Title align="right" order={2}>
-					{product.totalPrice} ₽
-				</Title>
-			</Group>
+				</Grid.Col>
+			</Grid>
 		</Card>
 	);
 };

@@ -13,10 +13,9 @@ import {
 import { showNotification } from '@mantine/notifications';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
 import { $SERVER_URL } from '../http';
-import { addToCart } from '../store/slices/cartSlice';
 import { IProduct } from '../types/objects/product';
+import currencyStringsFormatter from '../utils/currencyStringsFormatter';
 
 interface ProductCard {
 	product: IProduct;
@@ -68,6 +67,23 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 					</Text>
 
 					<Group mt="lg">
+						{product.sizes.length > 0 && (
+							<Tooltip
+								label={product.sizes.map(
+									el => `${el.size.size}ru `,
+								)}>
+								<Badge
+									style={{ fontWeight: 400 }}
+									variant="gradient"
+									gradient={{
+										from: 'orange',
+										to: 'red',
+									}}>
+									Доступные размеры
+								</Badge>
+							</Tooltip>
+						)}
+
 						{product.brand.name && (
 							<Tooltip
 								label={`Производитель ${product.brand.name}`}>
@@ -100,7 +116,7 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 					</Group>
 
 					<Text align="right" mt="lg" size="lg" weight={500}>
-						{product.price} ₽
+						{currencyStringsFormatter.format(product.price)}
 					</Text>
 				</Card>
 			</Link>
