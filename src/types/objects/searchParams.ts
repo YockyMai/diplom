@@ -5,4 +5,5 @@ export interface ISearchParams {
 	currentPage?: string;
 	minPrice?: number;
 	maxPrice?: number;
+	sizeId?: string;
 }

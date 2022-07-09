@@ -8,6 +8,7 @@ export interface filterSlice {
 	currentPage: string;
 	minPrice: number;
 	maxPrice: number;
+	sizeId: string;
 }
 
 const initialState: filterSlice = {
@@ -17,6 +18,7 @@ const initialState: filterSlice = {
 	currentPage: '1',
 	minPrice: 0,
 	maxPrice: 100000,
+	sizeId: '0',
 };
 
 export const filterSlice = createSlice({
@@ -32,6 +34,9 @@ export const filterSlice = createSlice({
 		setBrandId: (state, action) => {
 			state.brandId = action.payload;
 		},
+		setSizeId: (state, action) => {
+			state.sizeId = action.payload;
+		},
 		setCurrentPage: (state, action) => {
 			state.currentPage = action.payload;
 		},
@@ -42,6 +47,7 @@ export const filterSlice = createSlice({
 			state.typeId = action.payload.typeId || '0';
 			state.minPrice = action.payload.minPrice || 0;
 			state.maxPrice = action.payload.maxPrice || 100000;
+			state.sizeId = action.payload.sizeId || '0';
 		},
 		setPriceRange: (
 			state,
@@ -55,6 +61,7 @@ export const filterSlice = createSlice({
 			state.currentPage = '1';
 			state.searchValue = '';
 			state.typeId = '0';
+			state.sizeId = '0';
 			state.minPrice = 0;
 			state.maxPrice = 100000;
 		},
@@ -65,6 +72,7 @@ export const {
 	setSearchValue,
 	setCategoryId,
 	setBrandId,
+	setSizeId,
 	setCurrentPage,
 	setFilters,
 	resetFilters,

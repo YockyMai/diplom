@@ -25,6 +25,7 @@ import {
 	setSearchValue,
 	resetFilters,
 	setCurrentPage,
+	setSizeId,
 } from '../store/slices/filterSlice';
 import { getAllProducts } from '../store/slices/productSlice';
 
@@ -47,14 +48,30 @@ const brandData = [
 	{ value: '4', label: 'Котофей' },
 ];
 
+const sizeData = [
+	{ value: '0', label: 'Без разницы' },
+	{ value: '1', label: '36' },
+	{ value: '2', label: '37' },
+	{ value: '3', label: '38' },
+	{ value: '4', label: '39' },
+	{ value: '5', label: '40' },
+];
+
 export const Catalog: FC<Catalog> = () => {
 	const dispatch = useAppDispatch();
 	const { items, count } = useAppSelector(state => state.productsState);
 	const navigate = useNavigate();
 	const [scroll, scrollTo] = useWindowScroll();
 
-	const { brandId, typeId, currentPage, searchValue, minPrice, maxPrice } =
-		useAppSelector(state => state.filterState);
+	const {
+		brandId,
+		typeId,
+		currentPage,
+		searchValue,
+		minPrice,
+		maxPrice,
+		sizeId,
+	} = useAppSelector(state => state.filterState);
 	const [searchField, setSearchField] = useState<string>('');
 
 	useEffect(() => {
@@ -83,9 +100,10 @@ export const Catalog: FC<Catalog> = () => {
 			searchValue,
 			minPrice,
 			maxPrice,
+			sizeId,
 		});
 		setSearchField(searchParams);
-	}, [brandId, typeId, currentPage, searchValue, minPrice, maxPrice]); // установить параметры поиска
+	}, [brandId, typeId, currentPage, searchValue, minPrice, maxPrice, sizeId]); // установить параметры поиска
 
 	const handelSetCategory = (categoryId: string) => {
 		dispatch(setCategoryId(categoryId));
@@ -93,6 +111,10 @@ export const Catalog: FC<Catalog> = () => {
 
 	const handelSetBrand = (brandId: string) => {
 		dispatch(setBrandId(brandId));
+	};
+
+	const handleSetSize = (sizeId: string) => {
+		dispatch(setSizeId(sizeId));
 	};
 
 	const applyFilter = () => {
@@ -111,6 +133,7 @@ export const Catalog: FC<Catalog> = () => {
 				minPrice,
 				maxPrice,
 				searchValue,
+				sizeId,
 			}),
 		);
 	};
@@ -134,6 +157,7 @@ export const Catalog: FC<Catalog> = () => {
 			getAllProducts({
 				brandId,
 				typeId,
+				sizeId,
 				currentPage: String(page),
 			}),
 		);
@@ -177,6 +201,17 @@ export const Catalog: FC<Catalog> = () => {
 							value={brandId}
 							onChange={brand => {
 								brand && handelSetBrand(brand);
+							}}
+							allowDeselect
+						/>
+
+						<Select
+							data={sizeData}
+							label="Размер"
+							placeholder="Выберете размер"
+							value={sizeId}
+							onChange={sizeId => {
+								sizeId && handleSetSize(sizeId);
 							}}
 							allowDeselect
 						/>

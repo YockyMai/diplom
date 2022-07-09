@@ -29,12 +29,14 @@ export const getAllProducts = createAsyncThunk(
 	async (params: ISearchParams, { rejectWithValue }) => {
 		try {
 			const limit = 8;
-			let { brandId, typeId, minPrice, maxPrice, currentPage } = params;
+			let { brandId, typeId, minPrice, maxPrice, currentPage, sizeId } =
+				params;
 
 			const response = await $host.get(`/api/product`, {
 				params: {
 					brandId: brandId == '0' ? null : brandId,
 					typeId: typeId == '0' ? null : typeId,
+					sizeId: sizeId == '0' ? null : sizeId,
 					limit,
 					page: currentPage,
 					minPrice,
