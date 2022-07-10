@@ -15,11 +15,6 @@ export const CatalogFilter = () => {
 		state => state.filterState,
 	);
 
-	const color =
-		theme.colorScheme === 'dark'
-			? theme.colors.gray[0]
-			: theme.colors.dark[9];
-
 	const changeCurrentCategory = (categoryNumber: string) => {
 		dispatch(setCategoryId(categoryNumber));
 		const searchFiled = qs.stringify({

@@ -5,3 +5,7 @@ a {
 img {
 	border-radius: 15px !important;
 }
+
+.body {
+	min-height: '100vh' !important;
+}

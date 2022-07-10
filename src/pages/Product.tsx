@@ -13,15 +13,23 @@ import {
 	SelectItem,
 	Skeleton,
 	Stack,
+	Tabs,
 	Text,
 	Title,
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ShoppingCartPlus, Star } from 'tabler-icons-react';
+import {
+	InfoCircle,
+	MessageCircle,
+	ShoppingCartPlus,
+	Star,
+} from 'tabler-icons-react';
+import { AuthModal } from '../components/AuthModal';
 import { ImageServer } from '../components/ImageServer';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
+import { Сomments } from '../modules/Сomments';
 import { addProductToCart } from '../store/slices/cartSlice';
 import { getOneProduct } from '../store/slices/productSlice';
 import currencyStringsFormatter from '../utils/currencyStringsFormatter';
@@ -89,11 +97,7 @@ export const Product = () => {
 	return (
 		<Container style={{ marginTop: '100px' }} size="xl">
 			{!isLoading && item ? (
-				<Grid
-					style={{ height: '500px' }}
-					grow
-					align="center"
-					justify="center">
+				<Grid grow align="center" justify="center">
 					<Grid.Col span={6}>
 						{item.img ? (
 							<ImageServer src={item.img} height={500} />
@@ -102,8 +106,6 @@ export const Product = () => {
 						)}
 					</Grid.Col>
 					<Grid.Col span={6}>
-						<Title order={2}>Описание</Title>
-						<Text my="xl">{item.info}</Text>
 						<Stack>
 							<Card shadow="xl">
 								<Container size="lg">
@@ -200,6 +202,19 @@ export const Product = () => {
 							</Card>
 						</Stack>
 					</Grid.Col>
+					<Grid.Col span={12}>
+						<Tabs mt="xl">
+							<Tabs.Tab label="Отзывы" icon={<MessageCircle />}>
+								<Сomments productId={id} />
+							</Tabs.Tab>
+							<Tabs.Tab
+								label="Информация о товаре"
+								icon={<InfoCircle />}>
+								<Title order={2}>Описание</Title>
+								<Text my="xl">{item.info}</Text>
+							</Tabs.Tab>
+						</Tabs>
+					</Grid.Col>
 				</Grid>
 			) : (
 				<Grid
@@ -230,31 +245,11 @@ export const Product = () => {
 					Или у нас произошла ошибка, попробуйте позже!
 				</Text>
 			</Modal>
-			<Modal
+			<AuthModal
 				opened={cartErrorModal}
 				onClose={() => setCartErrorModal(false)}
-				size="30%">
-				<Title align="center">😞</Title>
-				<Title align="center" order={3}>
-					Вы не авторизованны!
-				</Title>
-				<Text mt="xl" align="center">
-					Чтобы добавлять товары в корзину, нужно иметь свой аккаунт!
-				</Text>
-				<Stack mt={50}>
-					<Link to="/auth/login">
-						<Button style={{ width: '100%' }} color="green">
-							Войти в аккаунт
-						</Button>
-					</Link>
-
-					<Link to="/auth/signup">
-						<Button style={{ width: '100%' }}>
-							Зарегистрироваться
-						</Button>
-					</Link>
-				</Stack>
-			</Modal>
+				text="Чтобы добавлять товары в корзину, нужно иметь свой аккаунт!"
+			/>
 		</Container>
 	);
 };
