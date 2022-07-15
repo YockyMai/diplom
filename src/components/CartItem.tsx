@@ -10,15 +10,16 @@ import {
 	ThemeIcon,
 	Grid,
 	ActionIcon,
+	Popover,
 } from '@mantine/core';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Minus, Plus, Trash } from 'tabler-icons-react';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
-import { getCartRes } from '../store/slices/cartSlice';
+import { deleteFromCart, getCartRes } from '../store/slices/cartSlice';
 import currencyStringsFormatter from '../utils/currencyStringsFormatter';
-import { ImageServer } from './ImageServer';
+import { ImageServer } from './UI/ImageServer';
 
 interface CartItem {
 	cartItem: getCartRes;
@@ -28,10 +29,17 @@ export const CartItem: FC<CartItem> = ({ cartItem }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
+	const [popoverIsOpen, setPopoverOpen] = useState(false);
+
 	const findSimilarProducts = () => {
 		navigate(
 			`/catalog?brandId=${cartItem.product.brand.id}&typeId=${cartItem.product.type.id}`,
 		);
+	};
+
+	const deleteProductFromCart = () => {
+		setPopoverOpen(false);
+		if (cartItem.size) dispatch(deleteFromCart(cartItem.id));
 	};
 
 	return (
@@ -71,9 +79,43 @@ export const CartItem: FC<CartItem> = ({ cartItem }) => {
 						<Button onClick={findSimilarProducts}>
 							Найти похожие
 						</Button>
-						<ActionIcon color="red">
-							<Trash />
-						</ActionIcon>
+						<Popover
+							opened={popoverIsOpen}
+							onClose={() => {
+								setPopoverOpen(false);
+							}}
+							position="bottom"
+							shadow="xl"
+							target={
+								<ActionIcon
+									onClick={() => {
+										setPopoverOpen(true);
+									}}
+									variant="transparent"
+									size="md">
+									<Trash />
+								</ActionIcon>
+							}>
+							<Text size="sm">
+								Удалить {cartItem.product.name} с корзины?
+							</Text>
+							<Group mt="xl">
+								<Button
+									onClick={() => {
+										setPopoverOpen(false);
+									}}
+									size="xs"
+									color="green">
+									Отмена
+								</Button>
+								<Button
+									onClick={deleteProductFromCart}
+									size="xs"
+									color="red">
+									Удалить
+								</Button>
+							</Group>
+						</Popover>
 					</Group>
 				</Grid.Col>
 			</Grid>

@@ -16,7 +16,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BucketOff } from 'tabler-icons-react';
 import { MyRangeSlider } from '../components/MyRangeSlider';
 import { ProductCard } from '../components/ProductCard';
-import { TopScroll } from '../components/TopScroll';
+import { TopScroll } from '../components/UI/TopScroll';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
 import {
 	setBrandId,

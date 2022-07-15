@@ -30,10 +30,15 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 			: theme.colors.gray[7];
 
 	return (
-		<div style={{ width: 300, marginTop: 30 }}>
+		<div
+			style={{
+				width: 300,
+				marginTop: 30,
+				overflow: 'hidden',
+			}}>
 			<Link to={`/catalog/product/${product.id}`}>
 				<Card
-					style={{ height: '500px' }}
+					style={{ maxHeight: '500px' }}
 					radius="lg"
 					shadow="sm"
 					p="lg">

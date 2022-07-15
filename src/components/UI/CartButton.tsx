@@ -2,8 +2,8 @@ import { Button, Indicator, Text } from '@mantine/core';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCart } from 'tabler-icons-react';
-import { useAppSelector } from '../hooks/react-redux';
-import { RouteNames } from '../types/enums/router';
+import { useAppSelector } from '../../hooks/react-redux';
+import { RouteNames } from '../../types/enums/router';
 
 interface CartButton {}
 

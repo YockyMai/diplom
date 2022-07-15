@@ -6,4 +6,5 @@ export enum RouteNames {
 	LOGIN = 'login',
 	CATALOG = '/catalog',
 	PRODUCT = ':id',
+	ADMIN = 'admin',
 }

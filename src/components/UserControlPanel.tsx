@@ -1,6 +1,12 @@
 import { ActionIcon, ColorScheme, Menu } from '@mantine/core';
 import React from 'react';
-import { DoorExit, Login, NewSection, Sun } from 'tabler-icons-react';
+import {
+	DeviceDesktopAnalytics,
+	DoorExit,
+	Login,
+	NewSection,
+	Sun,
+} from 'tabler-icons-react';
 import { RootState } from '../store';
 import { Colors } from '../types/enums/colors';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
@@ -14,6 +20,7 @@ export const UserControlPanel = () => {
 	const dispatch = useAppDispatch();
 	const colorScheme = useAppSelector(state => state.themeState.theme);
 	const { isAuth } = useAppSelector(state => state.userState);
+	const role = useAppSelector(state => state.userState.user.role);
 
 	const navigate = useNavigate();
 
@@ -62,6 +69,16 @@ export const UserControlPanel = () => {
 			<Menu.Item onClick={toggleColorScheme} icon={<Sun size={18} />}>
 				{colorScheme === 'dark' ? 'Светлая тема' : 'Темная тема'}
 			</Menu.Item>
+			{role === 'ADMIN' && (
+				<>
+					<Menu.Label>Админ</Menu.Label>
+					<Link to={'/admin'}>
+						<Menu.Item icon={<DeviceDesktopAnalytics size={18} />}>
+							Панель администратора
+						</Menu.Item>
+					</Link>
+				</>
+			)}
 		</Menu>
 	);
 };

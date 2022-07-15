@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Grid, Group, Modal, Text, Title } from '@mantine/core';
+import { Button, Grid, Group, Modal, Switch, Text, Title } from '@mantine/core';
 import { CartItem } from '../components/CartItem';
 import currencyStringsFormatter from '../utils/currencyStringsFormatter';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
@@ -14,12 +14,23 @@ export const Basket = () => {
 	const [isLoading, setLoading] = useState(false);
 	const [orderModal, setOrderModal] = useState(false);
 
+	const [showOrderInfo, switchShowOrderInfo] = useState(false);
+
 	const orderPayment = () => {
 		setLoading(true);
 		dispatch(placeOrder()).then(() => {
+			if (localStorage.getItem('show/orderInfo') !== 'no') {
+				setOrderModal(true);
+			}
 			setLoading(false);
-			setOrderModal(true);
 		});
+	};
+
+	const closeOrderInfoModal = () => {
+		if (showOrderInfo === true) {
+			localStorage.setItem('show/orderInfo', 'no');
+		}
+		setOrderModal(false);
 	};
 
 	return (
@@ -28,7 +39,7 @@ export const Basket = () => {
 				<Grid grow justify="space-between">
 					<Grid.Col span={8}>
 						{items.map(item => (
-							<CartItem cartItem={item} />
+							<CartItem key={item.id} cartItem={item} />
 						))}
 					</Grid.Col>
 
@@ -74,19 +85,32 @@ export const Basket = () => {
 				</Text>
 			)}
 
-			<Modal onClose={() => setOrderModal(false)} opened={orderModal}>
-				<Title align="center" style={{ fontSize: '62px' }}>
-					👌
-				</Title>
+			<Modal
+				size="lg"
+				onClose={() => setOrderModal(false)}
+				opened={orderModal}>
 				<Title order={3} align="center" mt="xl">
 					Заказ успешно оформлен
 				</Title>
-				<Text align="center" mt="xl">
+				<Text mt="xl">
 					Перейдите в "Ваши заказы", чтобы просмотреть статус заказа
 				</Text>
-				<Text align="center" mt="xs">
-					Так-же, там можно посмотреть ваши прошлые заказы!
+				<Text mt="xl">
+					Там можно просмотреть ваши прошлые заказы и оставить отзыв о
+					товаре!
 				</Text>
+
+				<Group position="apart" align="center" mt="xl">
+					<Switch
+						checked={showOrderInfo}
+						onChange={e =>
+							switchShowOrderInfo(e.currentTarget.checked)
+						}
+						label="Больше не показывать"
+					/>
+
+					<Button onClick={closeOrderInfoModal}>Понятно</Button>
+				</Group>
 			</Modal>
 		</div>
 	);

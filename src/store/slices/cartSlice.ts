@@ -1,3 +1,4 @@
+import { showNotification } from '@mantine/notifications';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { $authHost } from '../../http';
@@ -14,10 +15,11 @@ const initialState: cartState = {
 };
 
 export interface getCartRes {
+	id: number;
 	createdAt: string;
 	updatedAt: string;
 	product: IProduct;
-	size?: {
+	size: {
 		id: number;
 		size: number;
 	};
@@ -84,6 +86,30 @@ export const placeOrder = createAsyncThunk(
 	},
 );
 
+export const deleteFromCart = createAsyncThunk(
+	'cartSlice/deleteFromCart',
+	async (cartItemId: number, { rejectWithValue }) => {
+		try {
+			const response = await $authHost.post('api/basket/deleteOne', {
+				id: cartItemId,
+			});
+
+			if (response.status !== 200) {
+				showNotification({
+					title: 'Ошибка',
+					message: 'Не удалось выполнить действие, попробуйте позже',
+					color: 'red',
+				});
+				throw new Error('Server Error');
+			}
+
+			return cartItemId;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	},
+);
+
 export const cartSlice = createSlice({
 	name: 'cartSlice',
 	initialState,
@@ -103,7 +129,6 @@ export const cartSlice = createSlice({
 
 		builder.addCase(addProductToCart.fulfilled, (state, action) => {
 			state.items.push(action.payload);
-			console.log(action.payload);
 			state.totalPrice = state.totalPrice + action.payload.product.price;
 		});
 
@@ -114,6 +139,10 @@ export const cartSlice = createSlice({
 
 		builder.addCase(placeOrder.rejected, state => {
 			alert('ОШИБКА МИНУС ДЕНЬГИ БЫДЛО');
+		});
+
+		builder.addCase(deleteFromCart.fulfilled, (state, action) => {
+			state.items = state.items.filter(el => el.id !== action.payload);
 		});
 	},
 });

@@ -5,10 +5,9 @@ import {
 	Container,
 	Grid,
 	Group,
-	Image,
-	List,
 	Mark,
 	Modal,
+	Popover,
 	Select,
 	SelectItem,
 	Skeleton,
@@ -26,8 +25,9 @@ import {
 	ShoppingCartPlus,
 	Star,
 } from 'tabler-icons-react';
-import { AuthModal } from '../components/AuthModal';
-import { ImageServer } from '../components/ImageServer';
+import { ProductInfo } from '../components/ProductInfo';
+import { AuthModal } from '../components/UI/AuthModal';
+import { ImageServer } from '../components/UI/ImageServer';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
 import { Сomments } from '../modules/Сomments';
 import { addProductToCart } from '../store/slices/cartSlice';
@@ -50,6 +50,8 @@ export const Product = () => {
 
 	const [selectedSize, setSelectedSize] = useState('');
 	const [sizeError, setSizeError] = useState('');
+
+	const [showRatingInfo, setShowRatingInfo] = useState(false);
 
 	console.log(selectedSize);
 
@@ -102,7 +104,7 @@ export const Product = () => {
 						{item.img ? (
 							<ImageServer src={item.img} height={500} />
 						) : (
-							'Пустое'
+							'Изображение недоступно'
 						)}
 					</Grid.Col>
 					<Grid.Col span={6}>
@@ -139,6 +141,39 @@ export const Product = () => {
 											{item.rating
 												? item.rating
 												: 'не оцененно'}
+											<Popover
+												opened={showRatingInfo}
+												position="top"
+												onClose={() =>
+													setShowRatingInfo(false)
+												}
+												target={
+													<InfoCircle
+														onClick={() =>
+															setShowRatingInfo(
+																true,
+															)
+														}
+														onMouseEnter={() =>
+															setShowRatingInfo(
+																true,
+															)
+														}
+														onMouseLeave={() =>
+															setShowRatingInfo(
+																false,
+															)
+														}
+													/>
+												}>
+												<Text>
+													Поставить рейтинг можно,
+													написав любой комментарий
+													ниже, или на странице
+													"Корзина" в разделе "Ваши
+													заказы"
+												</Text>
+											</Popover>
 										</Group>
 									</Card.Section>
 									<Card.Section py={15}>
@@ -210,8 +245,7 @@ export const Product = () => {
 							<Tabs.Tab
 								label="Информация о товаре"
 								icon={<InfoCircle />}>
-								<Title order={2}>Описание</Title>
-								<Text my="xl">{item.info}</Text>
+								<ProductInfo productId={item.id} />
 							</Tabs.Tab>
 						</Tabs>
 					</Grid.Col>

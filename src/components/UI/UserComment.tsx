@@ -11,8 +11,7 @@ import {
 	useMantineTheme,
 } from '@mantine/core';
 import React, { FC, useState } from 'react';
-import { Icomment } from '../store/slices/commentsSlice';
-import { IUser } from '../types/objects/user';
+import { IUser } from '../../types/objects/user';
 import { TypographyStylesProvider } from '@mantine/core';
 import { format, parseISO } from 'date-fns';
 
@@ -41,9 +40,14 @@ export const UserComment: FC<UserComment> = ({ createdAt, user, value }) => {
 			<Group>
 				<Avatar radius="xl">{avatarSymbols?.toUpperCase()}</Avatar>
 				<Text color={color}>
-					<Title order={4}>
-						Отзыв пользователя <strong>{user.username}</strong>
-					</Title>
+					<Text weight={200}>
+						{user.role === 'ADMIN'
+							? 'Администратор'
+							: 'Отзыв пользователя'}
+						<strong>
+							{user.role !== 'ADMIN' && ' ' + user.username}
+						</strong>
+					</Text>
 
 					<Text color={color} align="right" size="sm">
 						{'оставлен в ' +

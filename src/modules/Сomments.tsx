@@ -12,12 +12,13 @@ import {
 	Transition,
 } from '@mantine/core';
 import { InfoCircle } from 'tabler-icons-react';
-import { UserComment } from '../components/UserComment';
+import { UserComment } from '../components/UI/UserComment';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
 import { createComment, getAllComments } from '../store/slices/commentsSlice';
 import { parseISO } from 'date-fns';
 import { showNotification } from '@mantine/notifications';
-import { AuthModal } from '../components/AuthModal';
+import { AuthModal } from '../components/UI/AuthModal';
+import { RatingModal } from '../components/UI/RatingModal';
 
 interface Comments {
 	productId?: string;
@@ -33,6 +34,8 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 	const [editorInfoModal, setEditorInfoModal] = useState(false);
 	const [authModal, setAuthModal] = useState(false);
 
+	const [ratingModal, setRatingModal] = useState(false);
+
 	React.useEffect(() => {
 		if (productId) dispatch(getAllComments(productId));
 	}, [productId]);
@@ -41,7 +44,11 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 		if (!isAuth) {
 			setAuthModal(true);
 		} else {
-			if (productId) dispatch(createComment({ value, productId }));
+			if (productId)
+				dispatch(createComment({ value, productId })).then(() => {
+					onChange('');
+					setRatingModal(true);
+				});
 		}
 	};
 
@@ -133,6 +140,11 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 				opened={authModal}
 				onClose={() => setAuthModal(false)}
 				text="Чтобы оставлять свои отзывы, нужно иметь свой аккаунт!"
+			/>
+			<RatingModal
+				productId={Number(productId)}
+				isOpen={ratingModal}
+				setOpen={setRatingModal}
 			/>
 		</div>
 	);

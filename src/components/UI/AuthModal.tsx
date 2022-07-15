@@ -10,7 +10,7 @@ interface AuthModal {
 
 export const AuthModal: FC<AuthModal> = ({ opened, onClose, text }) => {
 	return (
-		<Modal opened={opened} onClose={onClose} size="30%">
+		<Modal opened={opened} onClose={onClose} size="md">
 			<Title align="center">😞</Title>
 			<Title align="center" order={3}>
 				Вы не авторизованны!

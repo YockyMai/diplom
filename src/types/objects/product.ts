@@ -1,3 +1,5 @@
+import { number } from 'zod';
+
 export interface IProduct {
 	id: number;
 	name: string;
@@ -12,7 +14,6 @@ export interface IProduct {
 		id: number;
 		name: string;
 	};
-	info?: [];
 	sizes: [
 		{
 			id: string;
@@ -27,4 +28,13 @@ export interface IProduct {
 			};
 		},
 	];
+}
+
+export interface IProductInfo {
+	id: number;
+	title: string;
+	description: string;
+	productId: string;
+	createdAt: string;
+	updatedAt: string;
 }

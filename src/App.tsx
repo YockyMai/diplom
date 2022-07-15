@@ -17,12 +17,14 @@ import { Login } from './components/Login';
 import { NotificationsProvider } from '@mantine/notifications';
 import { Product } from './pages/Product';
 import { check } from './store/slices/userSlice';
-import { TopScroll } from './components/TopScroll';
+import { TopScroll } from './components/UI/TopScroll';
 import { getCart } from './store/slices/cartSlice';
+import { Admin } from './pages/Admin';
 
 function App() {
 	const theme = useAppSelector(state => state.themeState.theme);
 	const userId = useAppSelector(state => state.userState.user.id);
+	const role = useAppSelector(state => state.userState.user.role);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -53,6 +55,12 @@ function App() {
 								/>
 							</Route>
 							<Route path={RouteNames.CART} element={<Cart />} />
+							{role === 'ADMIN' && (
+								<Route
+									path={RouteNames.ADMIN}
+									element={<Admin />}
+								/>
+							)}
 						</Route>
 
 						<Route path={RouteNames.AUTH} element={<Auth />}>

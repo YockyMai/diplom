@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image } from '@mantine/core';
-import { $SERVER_URL } from '../http';
+import { $SERVER_URL } from '../../http';
 
 export const ImageServer = ({
 	height,
