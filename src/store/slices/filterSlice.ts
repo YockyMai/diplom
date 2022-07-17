@@ -9,6 +9,7 @@ export interface filterSlice {
 	minPrice: number;
 	maxPrice: number;
 	sizeId: string;
+	sortBy: 'priceDESC' | 'priceASC' | 'ratingDESC' | 'ratingASC';
 }
 
 const initialState: filterSlice = {
@@ -19,6 +20,7 @@ const initialState: filterSlice = {
 	minPrice: 0,
 	maxPrice: 100000,
 	sizeId: '0',
+	sortBy: 'priceDESC',
 };
 
 export const filterSlice = createSlice({
@@ -37,6 +39,9 @@ export const filterSlice = createSlice({
 		setSizeId: (state, action) => {
 			state.sizeId = action.payload;
 		},
+		setSortBy: (state, action) => {
+			state.sortBy = action.payload;
+		},
 		setCurrentPage: (state, action) => {
 			state.currentPage = action.payload;
 		},
@@ -48,6 +53,7 @@ export const filterSlice = createSlice({
 			state.minPrice = action.payload.minPrice || 0;
 			state.maxPrice = action.payload.maxPrice || 100000;
 			state.sizeId = action.payload.sizeId || '0';
+			state.sortBy = action.payload.sortBy || 'priceDESC';
 		},
 		setPriceRange: (
 			state,
@@ -64,6 +70,7 @@ export const filterSlice = createSlice({
 			state.sizeId = '0';
 			state.minPrice = 0;
 			state.maxPrice = 100000;
+			state.sortBy = 'priceDESC';
 		},
 	},
 });
@@ -77,6 +84,7 @@ export const {
 	setFilters,
 	resetFilters,
 	setPriceRange,
+	setSortBy,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

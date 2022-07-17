@@ -26,6 +26,7 @@ import {
 	Star,
 } from 'tabler-icons-react';
 import { ProductInfo } from '../components/ProductInfo';
+import { ProductStars } from '../components/ProductStars';
 import { AuthModal } from '../components/UI/AuthModal';
 import { ImageServer } from '../components/UI/ImageServer';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
@@ -33,8 +34,6 @@ import { Сomments } from '../modules/Сomments';
 import { addProductToCart } from '../store/slices/cartSlice';
 import { getOneProduct } from '../store/slices/productSlice';
 import currencyStringsFormatter from '../utils/currencyStringsFormatter';
-
-const availableRating = [1, 2, 3, 4, 5];
 
 export const Product = () => {
 	const dispatch = useAppDispatch();
@@ -120,23 +119,9 @@ export const Product = () => {
 									</Card.Section>
 									<Card.Section pb={10}>
 										<Group align="center">
-											{availableRating.map((_, index) => (
-												<div key={index}>
-													{index + 1 <=
-													item.rating ? (
-														<Star
-															size={16}
-															color="#f5cb25"
-															fill="#f5cb25"
-														/>
-													) : (
-														<Star
-															size={16}
-															color="#f5cb25"
-														/>
-													)}
-												</div>
-											))}
+											<ProductStars
+												rating={item.rating}
+											/>
 											Средний рейтинг:
 											{item.rating
 												? item.rating

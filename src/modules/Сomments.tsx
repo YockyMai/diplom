@@ -99,6 +99,7 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 				<Stack spacing="xl" my="xl">
 					{comments.map(el => (
 						<UserComment
+							productId={Number(productId)}
 							user={el.user}
 							value={el.value}
 							createdAt={el.createdAt}

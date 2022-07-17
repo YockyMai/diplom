@@ -6,4 +6,5 @@ export interface ISearchParams {
 	minPrice?: number;
 	maxPrice?: number;
 	sizeId?: string;
+	sortBy?: 'priceDESC' | 'priceASC' | 'ratingDESC' | 'ratingASC';
 }

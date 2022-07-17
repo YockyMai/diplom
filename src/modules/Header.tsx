@@ -20,6 +20,7 @@ import { RouteNames } from '../types/enums/router';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../hooks/react-redux';
 import { CartButton } from '../components/UI/CartButton';
+import { CatalogItems } from '../components/CatalogItems';
 
 export default function Header() {
 	const theme = useMantineTheme();
@@ -52,7 +53,7 @@ export default function Header() {
 				<Grid.Col span={6}>
 					<Navbar.Section>
 						<Group grow>
-							<CatalogFilter />
+							<CatalogItems />
 							<TextInput
 								placeholder="Посик по каталогу"
 								rightSection={

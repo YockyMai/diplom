@@ -64,3 +64,11 @@ export const getProductInfo = async (productId: number) => {
 
 	return response.data;
 };
+
+export const getUserStars = async (productId: number, userId: number) => {
+	const response: AxiosResponse<{ rate: number }> = await $host.get(
+		`api/comment/stars/${productId}/${userId}`,
+	);
+
+	return response.data;
+};

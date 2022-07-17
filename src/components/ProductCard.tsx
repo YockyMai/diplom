@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { $SERVER_URL } from '../http';
 import { IProduct } from '../types/objects/product';
 import currencyStringsFormatter from '../utils/currencyStringsFormatter';
+import { ProductStars } from './ProductStars';
 
 interface ProductCard {
 	product: IProduct;
@@ -38,7 +39,7 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 			}}>
 			<Link to={`/catalog/product/${product.id}`}>
 				<Card
-					style={{ maxHeight: '500px' }}
+					style={{ maxHeight: '600px' }}
 					radius="lg"
 					shadow="sm"
 					p="lg">
@@ -120,9 +121,19 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 						)}
 					</Group>
 
-					<Text align="right" mt="lg" size="lg" weight={500}>
-						{currencyStringsFormatter.format(product.price)}
-					</Text>
+					<Group position="apart" align="center">
+						<div style={{ marginTop: '20px' }}>
+							{product.rating > 0 ? (
+								<ProductStars rating={product.rating} />
+							) : (
+								<Text size="xs">Не оцененно</Text>
+							)}
+						</div>
+
+						<Text align="right" mt="lg" size="lg" weight={500}>
+							{currencyStringsFormatter.format(product.price)}
+						</Text>
+					</Group>
 				</Card>
 			</Link>
 		</div>

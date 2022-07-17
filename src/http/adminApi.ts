@@ -53,3 +53,9 @@ export const addSizesToProduct = async (
 		});
 	}
 };
+
+export const createBrand = async (brandName: string) => {
+	const brand = await $authHost.post('/api/brand/', {
+		name: brandName,
+	});
+};
