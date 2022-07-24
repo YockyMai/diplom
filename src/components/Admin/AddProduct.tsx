@@ -58,14 +58,17 @@ export const AddProduct = () => {
 	useEffect(() => {
 		getBrands().then(brands => {
 			const fethingBrands: SelectItem[] = [];
-			brands.forEach((el: any) => {
-				fethingBrands.push({ value: String(el.id), label: el.name });
+			brands?.forEach((el: any) => {
+				fethingBrands.push({
+					value: String(el.id),
+					label: el.name,
+				});
 			});
 			setBrandsData([...fethingBrands]);
 		});
 		getTypes().then(types => {
 			const fethingTypes: SelectItem[] = [];
-			types.forEach((el: any) => {
+			types?.forEach((el: any) => {
 				fethingTypes.push({ value: String(el.id), label: el.name });
 			});
 			setTypesData([...fethingTypes]);

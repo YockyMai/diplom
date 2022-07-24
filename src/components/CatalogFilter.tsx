@@ -4,6 +4,7 @@ import {
 	Radio,
 	RadioGroup,
 	Select,
+	SelectItem,
 	Stack,
 	Title,
 } from '@mantine/core';
@@ -18,13 +19,13 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
+import { getBrands, getTypes } from '../http/getApi';
 import {
 	resetFilters,
 	setBrandId,
 	setCategoryId,
 	setCurrentPage,
 	setFilters,
-	setSearchValue,
 	setSizeId,
 	setSortBy,
 } from '../store/slices/filterSlice';
@@ -35,14 +36,14 @@ interface Catalog {
 	category?: string;
 }
 
-const categoryData = [
+const spareTypes = [
 	{ value: '0', label: 'Без разницы' },
 	{ value: '1', label: 'Мужская обувь' },
 	{ value: '2', label: 'Женская обувь' },
 	{ value: '3', label: 'Детская обувь' },
 ];
 
-const brandData = [
+const spareBrands = [
 	{ value: '0', label: 'Без разницы' },
 	{ value: '1', label: 'Nike' },
 	{ value: '2', label: 'Adidas' },
@@ -83,32 +84,74 @@ const sortData = [
 ];
 
 interface CatalogFilter {
-	searchField: string;
-	setSearchField: Dispatch<SetStateAction<string>>;
+	searchParams: string;
+	setSearchParams: Dispatch<SetStateAction<string>>;
 }
 
 export const CatalogFilter: FC<CatalogFilter> = ({
-	searchField,
-	setSearchField,
+	searchParams,
+	setSearchParams,
 }) => {
+	const [brandData, setBrandData] = useState<SelectItem[]>([]);
+	const [typeData, setTypeData] = useState<SelectItem[]>([]);
+
 	const dispatch = useAppDispatch();
 
-	const {
-		brandId,
-		typeId,
-		currentPage,
-		searchValue,
-		minPrice,
-		maxPrice,
-		sizeId,
-		sortBy,
-	} = useAppSelector(state => state.filterState);
+	const { brandId, typeId, currentPage, minPrice, maxPrice, sizeId, sortBy } =
+		useAppSelector(state => state.filterState);
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		getBrands()
+			.then(brands => {
+				const convertedArr: SelectItem[] = [];
+
+				brands?.forEach(brandItem => {
+					convertedArr.push({
+						value: String(brandItem.id),
+						label: brandItem.name,
+					});
+				});
+
+				setBrandData([
+					{ value: '0', label: 'Без разницы' },
+					...convertedArr,
+				]);
+			})
+			.catch(() => {
+				setBrandData([
+					{ value: '0', label: 'Без разницы' },
+					...spareBrands,
+				]);
+			});
+
+		getTypes()
+			.then(types => {
+				const convertedArr: SelectItem[] = [];
+
+				types?.forEach(typeItem => {
+					convertedArr.push({
+						value: String(typeItem.id),
+						label: typeItem.name,
+					});
+				});
+
+				setTypeData([
+					{ value: '0', label: 'Без разницы' },
+					...convertedArr,
+				]);
+			})
+			.catch(() => {
+				setTypeData([
+					{ value: '0', label: 'Без разницы' },
+					...spareTypes,
+				]);
+			});
+	}, []);
+
+	useEffect(() => {
 		if (window.location.search) {
-			setSearchValue(window.location.search);
 			const currentFilterValue = qs.parse(
 				window.location.search.replace('?', ''),
 			);
@@ -129,23 +172,16 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 			brandId,
 			typeId,
 			currentPage,
-			searchValue,
 			minPrice,
 			maxPrice,
 			sizeId,
 			sortBy,
 		});
-		setSearchField(searchParams);
-	}, [
-		brandId,
-		typeId,
-		currentPage,
-		searchValue,
-		minPrice,
-		maxPrice,
-		sizeId,
-		sortBy,
-	]); // установить параметры поиска
+
+		console.log(searchParams);
+
+		setSearchParams(searchParams);
+	}, [brandId, typeId, currentPage, minPrice, maxPrice, sizeId, sortBy]); // установить параметры поиска
 
 	const handelSetCategory = (categoryId: string) => {
 		dispatch(setCategoryId(categoryId));
@@ -166,7 +202,7 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 	const applyFilter = () => {
 		dispatch(setCurrentPage('1'));
 		navigate(
-			`?${searchField.replace(
+			`?${searchParams.replace(
 				`currentPage=${currentPage}`,
 				`currentPage=1`,
 			)}`,
@@ -178,7 +214,6 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 				currentPage: '1',
 				minPrice,
 				maxPrice,
-				searchValue,
 				sizeId,
 				sortBy,
 			}),
@@ -203,7 +238,7 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 			<MyRangeSlider />
 
 			<Select
-				data={categoryData}
+				data={typeData}
 				label="Категория"
 				placeholder="Выберите категорию"
 				value={typeId}

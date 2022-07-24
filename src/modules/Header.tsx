@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../hooks/react-redux';
 import { CartButton } from '../components/UI/CartButton';
 import { CatalogItems } from '../components/CatalogItems';
+import { CatalogSearch } from './CatalogSearch';
 
 export default function Header() {
 	const theme = useMantineTheme();
@@ -50,20 +51,19 @@ export default function Header() {
 						</Link>
 					</Navbar.Section>
 				</Grid.Col>
-				<Grid.Col span={6}>
+				<Grid.Col span={1}>
 					<Navbar.Section>
-						<Group grow>
+						<Group>
 							<CatalogItems />
-							<TextInput
-								placeholder="Посик по каталогу"
-								rightSection={
-									<Search size={22} strokeWidth={1} />
-								}
-							/>
 						</Group>
 					</Navbar.Section>
 				</Grid.Col>
-				<Grid.Col span={1}>
+				<Grid.Col span={3}>
+					<Navbar.Section>
+						<CatalogSearch />
+					</Navbar.Section>
+				</Grid.Col>
+				<Grid.Col span={2}>
 					<Navbar.Section>
 						<Group direction="column" align="end">
 							<CartButton />

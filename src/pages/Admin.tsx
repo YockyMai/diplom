@@ -4,6 +4,7 @@ import { AddBrand } from '../components/Admin/AddBrand';
 import { AddProduct } from '../components/Admin/AddProduct';
 import { AddSize } from '../components/Admin/AddSize';
 import { ChangeSizeCount } from '../components/Admin/ChangeSizeCount';
+import { DeleteBrand } from '../components/Admin/DeleteBrand';
 import { DeleteProduct } from '../components/Admin/DeleteProduct';
 import { useAppSelector } from '../hooks/react-redux';
 
@@ -20,6 +21,17 @@ export const Admin = () => {
 				<Accordion.Item label="Действия с товарами">
 					<Stack>
 						<AddProduct />
+						<DeleteProduct />
+					</Stack>
+				</Accordion.Item>
+				<Accordion.Item label="Действия с брендами">
+					<Stack>
+						<AddBrand />
+						<DeleteBrand />
+					</Stack>
+				</Accordion.Item>
+				<Accordion.Item label="Действия с категориями">
+					<Stack>
 						<AddBrand />
 						<DeleteProduct />
 					</Stack>

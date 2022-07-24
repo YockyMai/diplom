@@ -1,11 +1,12 @@
 import { showNotification } from '@mantine/notifications';
 import { AxiosResponse } from 'axios';
 import { $host } from '.';
+import { IBrand } from '../types/objects/brand';
 import { IProductInfo } from '../types/objects/product';
 
 export const getBrands = async () => {
 	try {
-		const response = await $host.get('api/brand/');
+		const response: AxiosResponse<IBrand[]> = await $host.get('api/brand/');
 
 		if (response.status !== 200) {
 			throw new Error('Server Error');
@@ -23,7 +24,7 @@ export const getBrands = async () => {
 
 export const getTypes = async () => {
 	try {
-		const response = await $host.get('api/type/');
+		const response: AxiosResponse<IBrand[]> = await $host.get('api/type/');
 
 		if (response.status !== 200) {
 			throw new Error('Server Error');

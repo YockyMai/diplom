@@ -1,9 +1,11 @@
-import { Alert, Button, Modal, Text } from '@mantine/core';
-import React, { useState } from 'react';
+import { Alert, Button, Modal, SelectItem, Text } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
 import { PlaylistAdd } from 'tabler-icons-react';
+import { getBrands } from '../../http/getApi';
 
 export const DeleteProduct = () => {
 	const [modalIsOpen, setModalOpen] = useState(false);
+
 	return (
 		<div>
 			<Alert title="Удалить товар" icon={<PlaylistAdd />} color="red">
@@ -16,7 +18,7 @@ export const DeleteProduct = () => {
 				</Button>
 			</Alert>
 			<Modal opened={modalIsOpen} onClose={() => setModalOpen(false)}>
-				Добавить товар
+				Удалить товар товар
 			</Modal>
 		</div>
 	);

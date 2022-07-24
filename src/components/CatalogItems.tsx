@@ -14,7 +14,7 @@ import { getAllProducts } from '../store/slices/productSlice';
 export const CatalogItems = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const { brandId, maxPrice, minPrice, searchValue } = useAppSelector(
+	const { brandId, maxPrice, minPrice } = useAppSelector(
 		state => state.filterState,
 	);
 
@@ -28,7 +28,7 @@ export const CatalogItems = () => {
 					currentPage: '1',
 					minPrice: 0,
 					maxPrice: 100000,
-					searchValue,
+
 					typeId: categoryNumber,
 					sortBy: 'priceDESC',
 				}),
@@ -40,7 +40,7 @@ export const CatalogItems = () => {
 				currentPage: '1',
 				minPrice,
 				maxPrice,
-				searchValue,
+
 				typeId: categoryNumber,
 			});
 			navigate(`/catalog/?${searchFiled}`);
@@ -51,7 +51,7 @@ export const CatalogItems = () => {
 					currentPage: '1',
 					minPrice,
 					maxPrice,
-					searchValue,
+
 					typeId: categoryNumber,
 				}),
 			);

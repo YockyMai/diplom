@@ -16,15 +16,7 @@ import { MyRangeSlider } from '../components/MyRangeSlider';
 import { ProductCard } from '../components/ProductCard';
 import { TopScroll } from '../components/UI/TopScroll';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
-import {
-	setBrandId,
-	setCategoryId,
-	setFilters,
-	setSearchValue,
-	resetFilters,
-	setCurrentPage,
-	setSizeId,
-} from '../store/slices/filterSlice';
+import { setCurrentPage } from '../store/slices/filterSlice';
 import { getAllProducts } from '../store/slices/productSlice';
 
 interface Catalog {
@@ -38,15 +30,14 @@ export const Catalog: FC<Catalog> = () => {
 	const navigate = useNavigate();
 	const [scroll, scrollTo] = useWindowScroll();
 
-	const { brandId, typeId, currentPage, sizeId } = useAppSelector(
-		state => state.filterState,
-	);
-	const [searchField, setSearchField] = useState<string>('');
+	const { brandId, typeId, currentPage, sizeId, minPrice, maxPrice, sortBy } =
+		useAppSelector(state => state.filterState);
+	const [searchParams, setSearchParams] = useState<string>('');
 
 	const handleChangePage = (page: number) => {
 		dispatch(setCurrentPage(Math.ceil(page)));
 		navigate(
-			`?${searchField.replace(
+			`?${searchParams.replace(
 				`currentPage=${currentPage}`,
 				`currentPage=${page}`,
 			)}`,
@@ -55,8 +46,11 @@ export const Catalog: FC<Catalog> = () => {
 			getAllProducts({
 				brandId,
 				typeId,
-				sizeId,
 				currentPage: String(page),
+				minPrice,
+				maxPrice,
+				sizeId,
+				sortBy,
 			}),
 		);
 		scrollTo({ y: 0 });
@@ -72,8 +66,8 @@ export const Catalog: FC<Catalog> = () => {
 			<Grid.Col span={3}>
 				<Center mt="30px">
 					<CatalogFilter
-						searchField={searchField}
-						setSearchField={setSearchField}
+						searchParams={searchParams}
+						setSearchParams={setSearchParams}
 					/>
 				</Center>
 			</Grid.Col>

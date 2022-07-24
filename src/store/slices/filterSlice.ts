@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ISearchParams } from '../../types/objects/searchParams';
 
 export interface filterSlice {
-	searchValue: string;
 	typeId: string;
 	brandId: string;
 	currentPage: string;
@@ -13,7 +12,6 @@ export interface filterSlice {
 }
 
 const initialState: filterSlice = {
-	searchValue: '',
 	typeId: '0',
 	brandId: '0',
 	currentPage: '1',
@@ -27,9 +25,6 @@ export const filterSlice = createSlice({
 	name: 'filterSlice',
 	initialState,
 	reducers: {
-		setSearchValue: (state, action) => {
-			state.searchValue = action.payload;
-		},
 		setCategoryId: (state, action) => {
 			state.typeId = action.payload;
 		},
@@ -48,7 +43,6 @@ export const filterSlice = createSlice({
 		setFilters: (state, action: PayloadAction<ISearchParams>) => {
 			state.brandId = action.payload.brandId || '0';
 			state.currentPage = action.payload.currentPage || '1';
-			state.searchValue = action.payload.searchValue || '';
 			state.typeId = action.payload.typeId || '0';
 			state.minPrice = action.payload.minPrice || 0;
 			state.maxPrice = action.payload.maxPrice || 100000;
@@ -65,7 +59,6 @@ export const filterSlice = createSlice({
 		resetFilters: state => {
 			state.brandId = '0';
 			state.currentPage = '1';
-			state.searchValue = '';
 			state.typeId = '0';
 			state.sizeId = '0';
 			state.minPrice = 0;
@@ -76,7 +69,6 @@ export const filterSlice = createSlice({
 });
 
 export const {
-	setSearchValue,
 	setCategoryId,
 	setBrandId,
 	setSizeId,

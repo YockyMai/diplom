@@ -6,6 +6,7 @@ import userSlice from './slices/userSlice';
 import filterSlice from './slices/filterSlice';
 import orderSlice from './slices/orderSlice';
 import commentsSlice from './slices/commentsSlice';
+import searchDropDownSlice from './slices/searchDropDown';
 
 export const store = configureStore({
 	reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
 		filterState: filterSlice,
 		orderState: orderSlice,
 		commentsState: commentsSlice,
+		searchDropDownState: searchDropDownSlice,
 	},
 });
 

@@ -55,7 +55,17 @@ export const addSizesToProduct = async (
 };
 
 export const createBrand = async (brandName: string) => {
-	const brand = await $authHost.post('/api/brand/', {
+	const res = await $authHost.post('/api/brand/', {
 		name: brandName,
 	});
+
+	return res.data;
+};
+
+export const deleteBrand = async (brandId: string) => {
+	const res = await $authHost.post('/api/brand/delete', {
+		brandId,
+	});
+
+	return res.data;
 };
