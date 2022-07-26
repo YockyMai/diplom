@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { $host } from '.';
 import { IBrand } from '../types/objects/brand';
 import { IProductInfo } from '../types/objects/product';
+import { validError } from '../utils/validError';
 
 export const getBrands = async () => {
 	try {
@@ -72,4 +73,18 @@ export const getUserStars = async (productId: number, userId: number) => {
 	);
 
 	return response.data;
+};
+
+export const getOneProduct = async (productId: string) => {
+	try {
+		const response = await $host.get(`/api/product/${productId}`);
+
+		if (response.status !== 200) {
+			throw new Error('Server Error');
+		}
+
+		return response.data;
+	} catch (error) {
+		validError('Серверная ошибка, попробуйте позже!');
+	}
 };

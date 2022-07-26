@@ -1,6 +1,7 @@
 import {
 	Avatar,
 	Container,
+	Divider,
 	Group,
 	List,
 	Modal,
@@ -37,7 +38,7 @@ export const UserComment: FC<UserComment> = ({
 
 	const color =
 		theme.colorScheme == 'dark'
-			? theme.colors.gray[0]
+			? theme.colors.gray[3]
 			: theme.colors.gray[9];
 
 	const avatarSymbols =
@@ -53,42 +54,46 @@ export const UserComment: FC<UserComment> = ({
 			});
 	}, []);
 
-	console.log(userStars);
-
 	return (
 		<Stack ml="xl" align="flex-start">
 			<Group>
 				<Avatar radius="xl">{avatarSymbols?.toUpperCase()}</Avatar>
-				<Text color={color}>
-					<Text weight={200}>
-						{user.role === 'ADMIN'
-							? 'Администратор'
-							: 'Отзыв пользователя'}
-						<strong>
-							{user.role !== 'ADMIN' && ' ' + user.username}
-						</strong>
-					</Text>
-					<Text color={color} align="right" size="sm">
-						{userStars && (
-							<>
-								{availableRating.map((rating, index) => (
-									<Star
-										key={rating}
-										size={12}
-										fill={
-											index < userStars
-												? '#f5cb25'
-												: 'transparent'
-										}
-										color="#f5cb25"
-									/>
-								))}
-							</>
-						)}
-						{' оставлен в ' +
-							format(parseISO(createdAt), 'dd.MM.yyyy')}
-					</Text>
-				</Text>
+				<Divider
+					label={
+						<>
+							<Text color={color}>
+								<Text weight={200}>
+									{user.username}{' '}
+									{userStars && (
+										<>
+											{availableRating.map(
+												(rating, index) => (
+													<Star
+														key={rating}
+														size={12}
+														fill={
+															index < userStars
+																? '#f5cb25'
+																: 'transparent'
+														}
+														color="#f5cb25"
+													/>
+												),
+											)}
+										</>
+									)}
+								</Text>
+								<Text color="dimmed" align="right" size="sm">
+									{' оставлен в ' +
+										format(
+											parseISO(createdAt),
+											'dd.MM.yyyy',
+										)}
+								</Text>
+							</Text>
+						</>
+					}
+				/>
 			</Group>
 			<Spoiler
 				maxHeight={120}
@@ -102,10 +107,6 @@ export const UserComment: FC<UserComment> = ({
 					<div dangerouslySetInnerHTML={{ __html: value }} />
 				</TypographyStylesProvider>
 			</Spoiler>
-
-			<span
-				style={{ borderBottom: `1px solid ${color}`, width: '80%' }}
-			/>
 		</Stack>
 	);
 };

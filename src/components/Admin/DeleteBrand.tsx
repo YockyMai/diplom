@@ -42,7 +42,7 @@ export const DeleteBrand = () => {
 
 			setBrandData(convertedArr);
 		});
-	});
+	}, []);
 
 	const removeBrand = () => {
 		if (brandId) {

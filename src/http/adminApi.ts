@@ -1,6 +1,7 @@
 import { showNotification } from '@mantine/notifications';
 import { AxiosResponse } from 'axios';
 import { $authHost } from '.';
+import { validError } from '../utils/validError';
 
 export const createProduct = async (
 	name: string,
@@ -68,4 +69,20 @@ export const deleteBrand = async (brandId: string) => {
 	});
 
 	return res.data;
+};
+
+export const deleteProduct = async (productId: string) => {
+	try {
+		const response = await $authHost.post('/api/product/delete/', {
+			productId,
+		});
+
+		if (response.status !== 200) {
+			throw new Error('Server Error');
+		}
+
+		return response.data;
+	} catch (error) {
+		validError('Такого товара уже не существует!');
+	}
 };

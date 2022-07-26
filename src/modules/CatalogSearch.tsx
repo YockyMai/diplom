@@ -1,4 +1,4 @@
-import { createRef, forwardRef, useEffect, useState } from 'react';
+import { createRef, FC, forwardRef, useEffect, useState } from 'react';
 import {
 	Group,
 	Avatar,
@@ -67,7 +67,15 @@ const SelectItem = forwardRef<HTMLDivElement, SearchItemProps>(
 	),
 );
 
-export function CatalogSearch() {
+interface CatalogSearchProps {
+	selectSearchItem: (id: string) => any;
+	label?: string;
+}
+
+export const CatalogSearch: FC<CatalogSearchProps> = ({
+	selectSearchItem,
+	label,
+}) => {
 	const dispatch = useAppDispatch();
 	const { sector, isLoading, items } = useAppSelector(
 		state => state.searchDropDownState,
@@ -75,24 +83,32 @@ export function CatalogSearch() {
 
 	const navigate = useNavigate();
 
+	const [isTyping, setTyping] = useState(false);
+
 	const [searchValue, setSearchValue] = useState('');
 
 	const searchInput = createRef<HTMLInputElement>();
 	const [searchTimeout, setSearchTimeout] = useState<any>(false);
 
+	console.log(isTyping);
+
 	useEffect(() => {
 		if (searchValue.length === 0) {
 			dispatch(closeSearch());
+			setTyping(false);
 		}
 
 		if (searchTimeout !== false) {
 			clearTimeout(searchTimeout);
+			setTyping(true);
 		}
 
 		setSearchTimeout(
 			setTimeout(() => {
-				if (searchValue.length > 0)
+				setTyping(false);
+				if (searchValue.length > 0) {
 					dispatch(getSearchItems({ sector, searchValue }));
+				}
 			}, 500),
 		);
 	}, [searchValue]);
@@ -105,12 +121,9 @@ export function CatalogSearch() {
 		dispatch(closeSearch());
 	};
 
-	const selectSearchItem = (id: string) => {
-		navigate(`/catalog/product/${id}`);
-	};
-
 	return (
 		<Select
+			label={label}
 			ref={searchInput}
 			placeholder="Посик товаров"
 			itemComponent={SelectItem}
@@ -121,7 +134,15 @@ export function CatalogSearch() {
 			nothingFound={
 				<Center>
 					<Group noWrap>
-						Нет результатов <MoodSad color="#478dce" />
+						{isTyping || isLoading ? (
+							<Loader size="xs" />
+						) : searchValue.length === 0 ? (
+							'Начните печатать, чтобы найти товар!'
+						) : (
+							<>
+								Нет результатов <MoodSad color="#478dce" />
+							</>
+						)}
 					</Group>
 				</Center>
 			}
@@ -136,4 +157,4 @@ export function CatalogSearch() {
 			onDropdownClose={closeSearchDropDown}
 		/>
 	);
-}
+};

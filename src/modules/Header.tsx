@@ -17,7 +17,7 @@ import { CatalogFilter } from '../components/CatalogFilter';
 import { UserControlPanel } from '../components/UserControlPanel';
 import logo from '../assets/images/logo.png';
 import { RouteNames } from '../types/enums/router';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../hooks/react-redux';
 import { CartButton } from '../components/UI/CartButton';
 import { CatalogItems } from '../components/CatalogItems';
@@ -25,8 +25,13 @@ import { CatalogSearch } from './CatalogSearch';
 
 export default function Header() {
 	const theme = useMantineTheme();
+	const navigate = useNavigate();
 
 	const { username } = useAppSelector(state => state.userState.user);
+
+	const selectSearchItem = (id: string) => {
+		navigate(`/catalog/product/${id}`);
+	};
 
 	return (
 		<Head height="60px" fixed pt="xs">
@@ -60,7 +65,7 @@ export default function Header() {
 				</Grid.Col>
 				<Grid.Col span={3}>
 					<Navbar.Section>
-						<CatalogSearch />
+						<CatalogSearch selectSearchItem={selectSearchItem} />
 					</Navbar.Section>
 				</Grid.Col>
 				<Grid.Col span={2}>
