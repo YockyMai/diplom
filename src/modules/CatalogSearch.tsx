@@ -88,8 +88,6 @@ export const CatalogSearch: FC<CatalogSearchProps> = ({
 	const searchInput = createRef<HTMLInputElement>();
 	const [searchTimeout, setSearchTimeout] = useState<any>(false);
 
-	console.log(isTyping);
-
 	useEffect(() => {
 		if (searchValue.length === 0) {
 			dispatch(closeSearch());

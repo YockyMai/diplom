@@ -52,8 +52,6 @@ export const Product = () => {
 
 	const [showRatingInfo, setShowRatingInfo] = useState(false);
 
-	console.log(selectedSize);
-
 	useEffect(() => {
 		dispatch(getOneProduct(Number(id)));
 	}, [id]);
@@ -92,8 +90,6 @@ export const Product = () => {
 			disabled: obj.count <= 0 ? true : false,
 		});
 	});
-
-	console.log(dataSizes);
 
 	return (
 		<Container style={{ marginTop: '100px' }} size="xl">

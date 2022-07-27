@@ -12,14 +12,19 @@ export const CartButton: FC<CartButton> = () => {
 
 	return (
 		<Link to={RouteNames.CART}>
-			<Indicator label={totalCount} size={18}>
-				<Button
-					variant="subtle"
-					color="green"
-					rightIcon={<ShoppingCart size={28} strokeWidth={1} />}>
-					<Text weight={200}>Корзина</Text>
-				</Button>
-			</Indicator>
+			<Button
+				style={{ width: '100%' }}
+				variant="subtle"
+				color="green"
+				rightIcon={
+					<Indicator label={totalCount} size={18}>
+						<ShoppingCart size={28} strokeWidth={1} />
+					</Indicator>
+				}>
+				<Text align="left" weight={200}>
+					Корзина
+				</Text>
+			</Button>
 		</Link>
 	);
 };

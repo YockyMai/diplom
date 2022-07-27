@@ -20,7 +20,7 @@ export const ProductInfo: FC<ProductInfo> = ({
 }) => {
 	const [infoTitle, setInfoTitle] = useState('');
 	const [infoDescription, setInfoDescription] = useState('');
-	console.log(productInfo);
+
 	const addInfo = () => {
 		setProductInfo([
 			...productInfo,

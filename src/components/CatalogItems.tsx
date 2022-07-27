@@ -61,7 +61,10 @@ export const CatalogItems = () => {
 	return (
 		<Menu
 			control={
-				<Button leftIcon={<Category />} color="green">
+				<Button
+					style={{ width: '100%' }}
+					leftIcon={<Category />}
+					color="green">
 					<Text weight={200}>Каталог</Text>
 				</Button>
 			}>

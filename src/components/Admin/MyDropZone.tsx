@@ -88,7 +88,6 @@ export const MyDropZone: FC<MyDropZone> = ({ fileSrc, setFileSrc }) => {
 				throw new Error('Server Error');
 			}
 
-			console.log(response);
 			setFileSrc(response.data);
 		} catch (error) {
 			showNotification({

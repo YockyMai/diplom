@@ -202,8 +202,6 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 			sortBy,
 		});
 
-		console.log(searchParams);
-
 		setSearchParams(searchParams);
 	}, [brandId, typeId, currentPage, minPrice, maxPrice, sizeId, sortBy]); // установить параметры поиска
 
