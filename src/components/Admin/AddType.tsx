@@ -1,26 +1,28 @@
 import { Alert, Button, Modal, Stack, Text, TextInput } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import React, { useState } from 'react';
 import {
 	CirclePlus,
 	DatabaseImport,
 	MoodHappy,
 	MoodSad,
+	PlaylistAdd,
 } from 'tabler-icons-react';
-import { createBrand } from '../../http/adminApi';
+import { createBrand, createType } from '../../http/adminApi';
 import { validError } from '../../utils/validError';
 
-export const AddBrand = () => {
+export const AddType = () => {
 	const [modalIsOpen, setModalOpen] = useState(false);
 
-	const [brandName, setBrandName] = useState('');
+	const [typeName, setTypeName] = useState('');
 
 	const [statusText, setStatusText] = useState('');
 	const [status, setStatus] = useState<null | 'ok' | 'success'>(null);
 
-	const addBrand = () => {
-		setBrandName('');
-		if (brandName.length > 0) {
-			createBrand(brandName)
+	const addType = () => {
+		setTypeName('');
+		if (typeName.length > 0) {
+			createType(typeName)
 				.then(res => {
 					setStatusText(res.message);
 					setStatus(res.status);
@@ -30,43 +32,43 @@ export const AddBrand = () => {
 					setStatus(res.status);
 				})
 				.finally(() => {
-					setBrandName('');
+					setTypeName('');
 				});
 		} else {
-			validError('Заполните поле "Бренд"!');
+			validError('Заполните поле "Тип"!');
 		}
 	};
 
 	const closeModal = () => {
-		setBrandName('');
+		setTypeName('');
 		setStatusText('');
 		setStatus(null);
 		setModalOpen(false);
 	};
 	return (
 		<div>
-			<Alert title="Добавить бренд" icon={<CirclePlus />}>
-				<Text>Добавите бренд, например Nike, Adidas и тп.</Text>
+			<Alert title="Добавить тип" icon={<CirclePlus />}>
+				<Text>Добавите тип, например "верхняя одежда" и тп.</Text>
 				<Button mt={10} onClick={() => setModalOpen(true)}>
-					Добавить бренд
+					Добавить тип
 				</Button>
 			</Alert>
 			<Modal
-				title="Добавить бренд"
+				title="Добавить тип"
 				opened={modalIsOpen}
 				onClose={closeModal}>
 				<Stack>
 					<TextInput
-						label="Бренд"
-						placeholder="Введите название бренда"
-						value={brandName}
+						label="Тип"
+						placeholder="Введите название типа"
+						value={typeName}
 						onChange={e => {
-							setBrandName(e.currentTarget.value);
+							setTypeName(e.currentTarget.value);
 						}}
 						required
 					/>
-					<Button onClick={addBrand} leftIcon={<DatabaseImport />}>
-						Добавть бренд
+					<Button onClick={addType} leftIcon={<DatabaseImport />}>
+						Добавть тип
 					</Button>
 
 					{status && (

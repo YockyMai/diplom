@@ -75,11 +75,13 @@ export const Catalog: FC<Catalog> = () => {
 			<Grid.Col span={9}>
 				<Center>
 					{items.length <= 0 ? (
-						<Stack mt="10%" align="center">
-							<BucketOff color="#e04343" size={100} />
-							<Title align="center" style={{ width: '65%' }}>
-								Совпадений по вашему запросу не найдено 😞,
-								попробуйте другой фильтр
+						<Stack mt="23%" align="center">
+							<Title
+								align="center"
+								order={2}
+								style={{ width: '65%', fontWeight: 200 }}>
+								Совпадений по вашему запросу не найдено 😞.
+								Попробуйте другой фильтр!
 							</Title>
 						</Stack>
 					) : (

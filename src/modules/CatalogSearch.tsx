@@ -81,8 +81,6 @@ export const CatalogSearch: FC<CatalogSearchProps> = ({
 		state => state.searchDropDownState,
 	);
 
-	const navigate = useNavigate();
-
 	const [isTyping, setTyping] = useState(false);
 
 	const [searchValue, setSearchValue] = useState('');
@@ -153,7 +151,7 @@ export const CatalogSearch: FC<CatalogSearchProps> = ({
 			filter={(value, item) =>
 				item.label!.toLowerCase().includes(value.toLowerCase().trim())
 			}
-			rightSection={isLoading ? <Loader size="xs" /> : <Search />}
+			rightSection={<Search />}
 			onDropdownClose={closeSearchDropDown}
 		/>
 	);

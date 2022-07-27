@@ -19,7 +19,7 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
-import { getBrands, getTypes } from '../http/getApi';
+import { getBrands, getSizes, getTypes } from '../http/getApi';
 import {
 	resetFilters,
 	setBrandId,
@@ -51,7 +51,7 @@ const spareBrands = [
 	{ value: '4', label: 'Котофей' },
 ];
 
-const sizeData = [
+const spareSizes = [
 	{ value: '0', label: 'Без разницы' },
 	{ value: '1', label: '36' },
 	{ value: '2', label: '37' },
@@ -94,6 +94,7 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 }) => {
 	const [brandData, setBrandData] = useState<SelectItem[]>([]);
 	const [typeData, setTypeData] = useState<SelectItem[]>([]);
+	const [sizeData, setSizeData] = useState<SelectItem[]>([]);
 
 	const dispatch = useAppDispatch();
 
@@ -146,6 +147,29 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 				setTypeData([
 					{ value: '0', label: 'Без разницы' },
 					...spareTypes,
+				]);
+			});
+
+		getSizes()
+			.then(sizes => {
+				const convertedArr: SelectItem[] = [];
+
+				sizes?.forEach((sizeItem: any) => {
+					convertedArr.push({
+						value: String(sizeItem.id),
+						label: String(sizeItem.size),
+					});
+				});
+
+				setSizeData([
+					{ value: '0', label: 'Без разницы' },
+					...convertedArr,
+				]);
+			})
+			.catch(() => {
+				setSizeData([
+					{ value: '0', label: 'Без разницы' },
+					...spareSizes,
 				]);
 			});
 	}, []);
@@ -246,6 +270,7 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 					category && handelSetCategory(category);
 				}}
 				allowDeselect
+				searchable
 			/>
 
 			<Select
@@ -257,6 +282,7 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 					brand && handelSetBrand(brand);
 				}}
 				allowDeselect
+				searchable
 			/>
 
 			<Select
@@ -268,6 +294,7 @@ export const CatalogFilter: FC<CatalogFilter> = ({
 					sizeId && handleSetSize(sizeId);
 				}}
 				allowDeselect
+				searchable
 			/>
 
 			<Select

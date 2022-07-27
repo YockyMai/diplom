@@ -41,13 +41,13 @@ export const DeleteProduct = () => {
 				setProductId(null);
 				showNotification({
 					title: 'Успешно',
-					message: `Продукт под ключевым номером "${productId}" удален!`,
+					message: `Товар под ключевым номером "${productId}" удален!`,
 				});
 			});
 	};
 	return (
 		<div>
-			<Alert title="Удалить товар" icon={<PlaylistAdd />} color="red">
+			<Alert title="Удалить товар" icon={<SquareMinus />} color="red">
 				<Text>
 					<strong>Опастно!</strong> Отменить данное действие будет
 					невозможно

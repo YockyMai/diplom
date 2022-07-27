@@ -71,6 +71,22 @@ export const deleteBrand = async (brandId: string) => {
 	return res.data;
 };
 
+export const createType = async (typeName: string) => {
+	const res = await $authHost.post('/api/type/', {
+		name: typeName,
+	});
+
+	return res.data;
+};
+
+export const deleteType = async (typeId: string) => {
+	const res = await $authHost.post('/api/type/delete', {
+		typeId,
+	});
+
+	return res.data;
+};
+
 export const deleteProduct = async (productId: string) => {
 	try {
 		const response = await $authHost.post('/api/product/delete/', {
@@ -85,4 +101,12 @@ export const deleteProduct = async (productId: string) => {
 	} catch (error) {
 		validError('Такого товара уже не существует!');
 	}
+};
+
+export const createSizeInstance = async (size: number) => {
+	const response = await $authHost.post('/api/sizes/createIntance', {
+		size,
+	});
+
+	return response.data;
 };

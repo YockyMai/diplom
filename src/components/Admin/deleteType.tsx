@@ -14,85 +14,85 @@ import {
 	MoodSad,
 	SquareMinus,
 } from 'tabler-icons-react';
-import { deleteBrand } from '../../http/adminApi';
-import { getBrands } from '../../http/getApi';
+import { deleteBrand, deleteType } from '../../http/adminApi';
+import { getBrands, getTypes } from '../../http/getApi';
 import { validError } from '../../utils/validError';
 
-export const DeleteBrand = () => {
+export const DeleteType = () => {
 	const [modalIsOpen, setModalOpen] = useState(false);
 
-	const [brandId, setBrandId] = useState('');
-	const [brandData, setBrandData] = useState<SelectItem[]>([]);
+	const [typeId, setTypeId] = useState('');
+	const [typeData, setTypeData] = useState<SelectItem[]>([]);
 
 	const [status, setStatus] = useState<null | 'ok' | 'success'>(null);
 	const [statusText, setStatusText] = useState('');
 
 	useEffect(() => {
-		getBrands().then(brands => {
+		getTypes().then(types => {
 			const convertedArr: SelectItem[] = [];
 
-			brands?.forEach(brandItem => {
+			types?.forEach(typesItem => {
 				convertedArr.push({
-					value: String(brandItem.id),
-					label: brandItem.name,
+					value: String(typesItem.id),
+					label: typesItem.name,
 				});
 			});
 
-			setBrandData(convertedArr);
+			setTypeData(convertedArr);
 		});
 	}, []);
 
 	const removeBrand = () => {
-		if (brandId) {
-			deleteBrand(brandId).then(res => {
-				setBrandId('');
+		if (typeId) {
+			deleteType(typeId).then(res => {
+				setTypeId('');
 				setStatus(res.status);
 				setStatusText(res.message);
 
-				let updatedBrands = brandData;
-				updatedBrands.filter(brand => brand.value !== brandId);
+				let updatedTypes = typeData;
+				updatedTypes.filter(type => type.value !== typeId);
 
-				setBrandData(updatedBrands);
+				setTypeData(updatedTypes);
 			});
 		}
 	};
 
 	const closeModal = () => {
-		setBrandId('');
+		setTypeId('');
 		setStatusText('');
 		setStatus(null);
 		setModalOpen(false);
 	};
 	return (
 		<div>
-			<Alert title="Удалить бренд" icon={<SquareMinus />} color="red">
+			<Alert title="Удалить тип" icon={<SquareMinus />} color="red">
 				<Text>
 					<strong>Опастно! </strong> Отменить данное действие будет
 					невозможно!
 				</Text>
 				<Button mt={10} color="red" onClick={() => setModalOpen(true)}>
-					Удалить бренд
+					Удалить тип
 				</Button>
 			</Alert>
 			<Modal
-				title="Удалить бренд"
+				title="Удалить тип"
 				opened={modalIsOpen}
 				onClose={closeModal}>
 				<Stack>
 					<Select
-						value={brandId}
-						data={brandData}
-						onChange={value => value && setBrandId(value)}
+						value={typeId}
+						data={typeData}
+						onChange={value => value && setTypeId(value)}
 						required
 						searchable
-						label="Выберите бренд который хотите удалить"
+						label="Выберите тип который хотите удалить"
 						placeholder="Название"
 					/>
 					<Button
 						onClick={removeBrand}
 						leftIcon={<DatabaseOff />}
 						color="red">
-						Удалить бренд
+						Удалить тип
 					</Button>
 
 					{status && (

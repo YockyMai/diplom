@@ -5,6 +5,7 @@ import {
 	Button,
 	Center,
 	Container,
+	Kbd,
 	List,
 	Modal,
 	Stack,
@@ -64,10 +65,7 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 					<RichTextEditor
 						value={value}
 						onChange={onChange}
-						controls={[
-							['bold', 'italic', 'underline', 'image'],
-							['h1', 'h2', 'h3', 'h4'],
-						]}
+						controls={[['bold', 'italic', 'underline']]}
 						style={{ maxWidth: '1200px', margin: '10px auto 0' }}
 						placeholder="Напиши свой отзыв о товаре"
 					/>
@@ -87,7 +85,7 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 							zIndex: 1,
 						}}
 						onClick={() => setEditorInfoModal(true)}>
-						<InfoCircle size={48} strokeWidth={2} color="#FFF" />
+						<InfoCircle size={48} strokeWidth={2} />
 					</ActionIcon>
 				</div>
 
@@ -118,20 +116,16 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 						</Title>
 						<List spacing="sm">
 							<List.Item>
-								⌘ + B/ Ctrl + B— переключить жирный шрифт в
-								текущем выделении
+								<Kbd>⌘ + B/ Ctrl + B</Kbd> — переключить жирный
+								шрифт в текущем выделении
 							</List.Item>
 							<List.Item>
-								⌘ + I/ Ctrl + I— переключить курсив в текущем
-								выделении
+								<Kbd>⌘ + I/ Ctrl + I</Kbd> — переключить курсив
+								в текущем выделении
 							</List.Item>
 							<List.Item>
-								⌘ + U/ Ctrl + U— переключить формат
+								<Kbd>⌘ + U/ Ctrl + U</Kbd> — переключить формат
 								подчеркивания в текущем выделении
-							</List.Item>
-							<List.Item>
-								⌘ + option + 1/ Ctrl + Alt + 1— переключить
-								заголовок в текущей строке
 							</List.Item>
 						</List>
 					</Container>

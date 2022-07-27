@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import React, { useEffect, useState } from 'react';
-import { PlaylistAdd } from 'tabler-icons-react';
+import { CirclePlus, PlaylistAdd } from 'tabler-icons-react';
 import { addSizesToProduct, createProduct } from '../../http/adminApi';
 import { getBrands, getTypes } from '../../http/getApi';
 import { AddProductSize } from './AddProductSize';
@@ -131,7 +131,7 @@ export const AddProduct = () => {
 	};
 	return (
 		<div>
-			<Alert title="Добавить товар" icon={<PlaylistAdd />}>
+			<Alert title="Добавить товар" icon={<CirclePlus />}>
 				<Text>
 					Добавьте товар, который будет отображатся в каталоге у
 					пользователей

@@ -3,9 +3,11 @@ import React from 'react';
 import { AddBrand } from '../components/Admin/AddBrand';
 import { AddProduct } from '../components/Admin/AddProduct';
 import { AddSize } from '../components/Admin/AddSize';
-import { ChangeSizeCount } from '../components/Admin/ChangeSizeCount';
+import { AddType } from '../components/Admin/AddType';
+import { AddSizeInstance } from '../components/Admin/AddSizeInstance';
 import { DeleteBrand } from '../components/Admin/DeleteBrand';
 import { DeleteProduct } from '../components/Admin/DeleteProduct';
+import { DeleteType } from '../components/Admin/deleteType';
 import { useAppSelector } from '../hooks/react-redux';
 
 export const Admin = () => {
@@ -30,16 +32,16 @@ export const Admin = () => {
 						<DeleteBrand />
 					</Stack>
 				</Accordion.Item>
-				<Accordion.Item label="Действия с категориями">
+				<Accordion.Item label="Действия с типами">
 					<Stack>
-						<AddBrand />
-						<DeleteProduct />
+						<AddType />
+						<DeleteType />
 					</Stack>
 				</Accordion.Item>
 				<Accordion.Item label="Действия с размерами">
 					<Stack>
 						<AddSize />
-						<ChangeSizeCount />
+						<AddSizeInstance />
 					</Stack>
 				</Accordion.Item>
 			</Accordion>

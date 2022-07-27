@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 
-export const $SERVER_URL = 'http://localhost:7096/';
+export const $SERVER_URL = 'https://pgdatabasediplom.herokuapp.com/';
 
 const $host = axios.create({
 	baseURL: $SERVER_URL,
