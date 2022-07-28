@@ -2,6 +2,7 @@ import React, { FC, useState, useEffect, createContext } from 'react';
 import {
 	Button,
 	Container,
+	Stack,
 	Stepper,
 	Text,
 	useMantineTheme,
@@ -75,24 +76,24 @@ export const Auth: FC = () => {
 				/>
 			</Stepper>
 			<Container py="8%" size="md" mt="lg">
-				<StepperProvider.Provider value={StepperContextValue}>
-					<Outlet context={nextStep} />
-				</StepperProvider.Provider>
+				<Stack align="center" justify="space-between">
+					<StepperProvider.Provider value={StepperContextValue}>
+						<Outlet context={nextStep} />
+					</StepperProvider.Provider>
 
-				<Link to="/">
-					<Button
-						variant="subtle"
-						color={theme.colorScheme === 'dark' ? 'blue' : 'pink'}
-						style={{
-							position: 'absolute',
-							bottom: 10,
-							left: '50%',
-							transform: 'translateX(-50%)',
-							fontWeight: 400,
-						}}>
-						На главную
-					</Button>
-				</Link>
+					<Link to="/">
+						<Button
+							variant="subtle"
+							color={
+								theme.colorScheme === 'dark' ? 'blue' : 'pink'
+							}
+							style={{
+								fontWeight: 400,
+							}}>
+							На главную
+						</Button>
+					</Link>
+				</Stack>
 			</Container>
 		</div>
 	);

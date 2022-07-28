@@ -38,6 +38,7 @@ export default function Header() {
 	const [searchModal, setSearchModal] = useState(false);
 
 	const { username } = useAppSelector(state => state.userState.user);
+	const { isAuth } = useAppSelector(state => state.userState);
 	const [burgerIsOpen, setBurgerOpen] = useState<boolean>(false);
 
 	const selectSearchItem = (id: string) => {
@@ -95,14 +96,8 @@ export default function Header() {
 					<Grid.Col span={2}>
 						<Navbar.Section>
 							<Group position="right">
-								{username ? (
-									<>
-										<Text>{username}</Text>
-										<UserControlPanel />
-									</>
-								) : (
-									<Skeleton width={150} height={30} />
-								)}
+								<Text>{username}</Text>
+								<UserControlPanel />
 							</Group>
 						</Navbar.Section>
 					</Grid.Col>
@@ -121,14 +116,10 @@ export default function Header() {
 						<Grid.Col span={10}>
 							<Navbar.Section>
 								<Group position="right">
-									{username ? (
-										<>
-											<Text>{username}</Text>
-											<UserControlPanel />
-										</>
-									) : (
-										<Skeleton width={150} height={30} />
-									)}
+									<>
+										<CatalogItems />
+										<UserControlPanel />
+									</>
 								</Group>
 							</Navbar.Section>
 						</Grid.Col>
@@ -161,7 +152,6 @@ export default function Header() {
 								leftIcon={<Search />}>
 								Поиск по каталогу
 							</Button>
-							<CatalogItems />
 							<CartButton />
 						</Stack>
 					</Drawer>

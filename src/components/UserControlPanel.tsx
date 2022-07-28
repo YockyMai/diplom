@@ -1,4 +1,4 @@
-import { ActionIcon, ColorScheme, Menu } from '@mantine/core';
+import { ActionIcon, ColorScheme, Text, Menu, Title } from '@mantine/core';
 import React from 'react';
 import {
 	DeviceDesktopAnalytics,
@@ -15,11 +15,13 @@ import { RouteNames } from '../types/enums/router';
 import { signOut } from '../store/slices/userSlice';
 import { showNotification } from '@mantine/notifications';
 import { switchTheme } from '../store/slices/themeSlice';
+import { useWindowWidth } from '../hooks/useWindowWidth';
 
 export const UserControlPanel = () => {
 	const dispatch = useAppDispatch();
 	const colorScheme = useAppSelector(state => state.themeState.theme);
 	const { isAuth } = useAppSelector(state => state.userState);
+	const username = useAppSelector(state => state.userState.user.username);
 	const role = useAppSelector(state => state.userState.user.role);
 
 	const navigate = useNavigate();
@@ -36,7 +38,12 @@ export const UserControlPanel = () => {
 
 	return (
 		<Menu>
-			<Menu.Label>Действия с акканутом</Menu.Label>
+			<Menu.Label>
+				{username}
+				<br />
+				Действия с акканутом
+			</Menu.Label>
+
 			{isAuth ? (
 				<Menu.Item
 					color="red"

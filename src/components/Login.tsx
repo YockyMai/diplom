@@ -24,8 +24,9 @@ export const Login = () => {
 	});
 
 	return (
-		<Box sx={{ maxWidth: 340 }} mx="auto">
+		<Box mx="auto">
 			<form
+				style={{ width: '340px' }}
 				onSubmit={form.onSubmit(values => {
 					dispatch(
 						login({
