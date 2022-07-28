@@ -5,7 +5,10 @@ import {
 	Title,
 	Stack,
 	Pagination,
+	Skeleton,
+	Group,
 } from '@mantine/core';
+import { Section } from '@mantine/core/lib/components/AppShell/HorizontalSection/Section/Section';
 import { useWindowScroll } from '@mantine/hooks';
 import qs from 'qs';
 import React, { FC, useEffect, useState } from 'react';
@@ -25,7 +28,9 @@ interface Catalog {
 
 export const Catalog: FC<Catalog> = () => {
 	const dispatch = useAppDispatch();
-	const { items, count } = useAppSelector(state => state.productsState);
+	const { items, count, itemsIsLoading } = useAppSelector(
+		state => state.productsState,
+	);
 
 	const navigate = useNavigate();
 	const [scroll, scrollTo] = useWindowScroll();
@@ -74,36 +79,107 @@ export const Catalog: FC<Catalog> = () => {
 
 			<Grid.Col span={9}>
 				<Center>
-					{items.length <= 0 ? (
-						<Stack mt="23%" align="center">
-							<Title
-								align="center"
-								order={2}
-								style={{ width: '65%', fontWeight: 200 }}>
-								Совпадений по вашему запросу не найдено 😞.
-								Попробуйте другой фильтр!
-							</Title>
-						</Stack>
+					{itemsIsLoading ? (
+						<SimpleGrid
+							breakpoints={[
+								{
+									maxWidth: 1480,
+									cols: 3,
+									spacing: 'md',
+								},
+								{
+									maxWidth: 1040,
+									cols: 2,
+									spacing: 'sm',
+								},
+								{ maxWidth: 800, cols: 1 },
+							]}
+							cols={4}>
+							{[0, 0, 0, 0, 0, 0, 0, 0].map(() => (
+								<Stack mt={30} spacing="lg" p="md">
+									<Center>
+										<Skeleton
+											height={280}
+											width={280}
+											radius="sm"
+										/>
+									</Center>
+
+									<Skeleton height={38} radius="sm" />
+
+									<Center>
+										<Skeleton
+											height={20}
+											width={120}
+											radius="sm"
+										/>
+									</Center>
+
+									<Skeleton height={20} radius="sm" />
+
+									<Group position="apart">
+										<Skeleton
+											height={30}
+											width={140}
+											radius="sm"
+										/>
+										<Skeleton
+											height={30}
+											width={70}
+											radius="sm"
+										/>
+									</Group>
+								</Stack>
+							))}
+						</SimpleGrid>
 					) : (
-						<Stack align="flex-end">
-							<SimpleGrid
-								breakpoints={[
-									{ maxWidth: 1480, cols: 3, spacing: 'md' },
-									{ maxWidth: 1040, cols: 2, spacing: 'sm' },
-									{ maxWidth: 800, cols: 1 },
-								]}
-								cols={4}>
-								{items.map(item => (
-									<ProductCard key={item.id} product={item} />
-								))}
-							</SimpleGrid>
-							<Pagination
-								page={Number(currentPage)}
-								onChange={handleChangePage}
-								py="xl"
-								total={Math.ceil(count / 8)}
-							/>
-						</Stack>
+						<>
+							{items.length <= 0 ? (
+								<Stack mt="23%" align="center">
+									<Title
+										align="center"
+										order={2}
+										style={{
+											width: '65%',
+											fontWeight: 200,
+										}}>
+										Совпадений по вашему запросу не найдено
+										😞. Попробуйте другой фильтр!
+									</Title>
+								</Stack>
+							) : (
+								<Stack align="flex-end">
+									<SimpleGrid
+										breakpoints={[
+											{
+												maxWidth: 1480,
+												cols: 3,
+												spacing: 'md',
+											},
+											{
+												maxWidth: 1040,
+												cols: 2,
+												spacing: 'sm',
+											},
+											{ maxWidth: 800, cols: 1 },
+										]}
+										cols={4}>
+										{items.map(item => (
+											<ProductCard
+												key={item.id}
+												product={item}
+											/>
+										))}
+									</SimpleGrid>
+									<Pagination
+										page={Number(currentPage)}
+										onChange={handleChangePage}
+										py="xl"
+										total={Math.ceil(count / 8)}
+									/>
+								</Stack>
+							)}
+						</>
 					)}
 				</Center>
 			</Grid.Col>

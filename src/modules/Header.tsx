@@ -15,6 +15,7 @@ import {
 	Drawer,
 	Stack,
 	Modal,
+	Skeleton,
 } from '@mantine/core';
 import { Search, ShoppingCart } from 'tabler-icons-react';
 import { CatalogFilter } from '../components/CatalogFilter';
@@ -94,8 +95,14 @@ export default function Header() {
 					<Grid.Col span={2}>
 						<Navbar.Section>
 							<Group position="right">
-								<Text>{username}</Text>
-								<UserControlPanel />
+								{username ? (
+									<>
+										<Text>{username}</Text>
+										<UserControlPanel />
+									</>
+								) : (
+									<Skeleton width={150} height={30} />
+								)}
 							</Group>
 						</Navbar.Section>
 					</Grid.Col>
@@ -111,11 +118,17 @@ export default function Header() {
 								/>
 							</Navbar.Section>
 						</Grid.Col>
-						<Grid.Col span={6}>
+						<Grid.Col span={10}>
 							<Navbar.Section>
 								<Group position="right">
-									<Text>{username}</Text>
-									<UserControlPanel />
+									{username ? (
+										<>
+											<Text>{username}</Text>
+											<UserControlPanel />
+										</>
+									) : (
+										<Skeleton width={150} height={30} />
+									)}
 								</Group>
 							</Navbar.Section>
 						</Grid.Col>

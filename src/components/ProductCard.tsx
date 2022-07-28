@@ -9,6 +9,7 @@ import {
 	Center,
 	SimpleGrid,
 	Tooltip,
+	Stack,
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import React, { FC } from 'react';
@@ -38,11 +39,7 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 				overflow: 'hidden',
 			}}>
 			<Link to={`/catalog/product/${product.id}`}>
-				<Card
-					style={{ maxHeight: '600px' }}
-					radius="lg"
-					shadow="sm"
-					p="lg">
+				<Card radius="lg" shadow="sm" p="lg">
 					<Card.Section
 						style={{
 							display: 'flex',
@@ -50,14 +47,15 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 							justifyContent: 'center',
 						}}>
 						<Center my={10}>
-							<Image
-								src={
-									product.img
-										? `${$SERVER_URL}${product.img}`
-										: ''
-								}
-								width={280}
-							/>
+							{product.img ? (
+								<Image
+									src={product.img}
+									alt="Изображение недоступно"
+									width={280}
+								/>
+							) : (
+								''
+							)}
 						</Center>
 					</Card.Section>
 

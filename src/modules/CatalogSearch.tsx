@@ -42,7 +42,7 @@ const SelectItem = forwardRef<HTMLDivElement, SearchItemProps>(
 		<div key={value} ref={ref} {...others}>
 			<Group position="apart" noWrap>
 				<Group noWrap>
-					<Avatar src={`${$SERVER_URL}/${img}`} />
+					<Avatar src={img} />
 					<Stack>
 						<Text size="sm" color="pink">
 							{label}

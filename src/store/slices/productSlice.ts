@@ -7,6 +7,7 @@ import { ISearchParams } from '../../types/objects/searchParams';
 export interface productsState {
 	count: number;
 	items: IProduct[];
+	itemsIsLoading: boolean;
 	product: {
 		item: IProduct | null;
 		isLoading: boolean;
@@ -17,6 +18,7 @@ export interface productsState {
 const initialState: productsState = {
 	count: 0,
 	items: [],
+	itemsIsLoading: true,
 	product: {
 		item: null,
 		isLoading: false,
@@ -86,11 +88,14 @@ export const productSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: builder => {
+		builder.addCase(getAllProducts.pending, state => {
+			state.itemsIsLoading = true;
+		});
 		builder.addCase(getAllProducts.fulfilled, (state, action) => {
 			state.count = action.payload.count;
 			state.items = action.payload.rows;
+			state.itemsIsLoading = false;
 		});
-
 		builder.addCase(getOneProduct.pending, state => {
 			state.product.isLoading = true;
 		});

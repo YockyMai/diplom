@@ -41,6 +41,8 @@ export const AddProduct = () => {
 	const [productId, setProductId] = useState('');
 	const [sizeModalIsOpen, setSizeModalOpen] = useState(false);
 
+	console.log(price);
+
 	const resetStateValues = () => {
 		setBrandsData([]);
 		setTypesData([]);
@@ -53,6 +55,7 @@ export const AddProduct = () => {
 		setSizes([]);
 		setSizeModalOpen(false);
 		setModalOpen(false);
+		setPrice(0);
 	};
 
 	useEffect(() => {
@@ -180,18 +183,9 @@ export const AddProduct = () => {
 						onChange={val => val && setPrice(val)}
 						label="Стоимость"
 						required
+						placeholder="Введите цену"
 						defaultValue={0}
-						parser={value =>
-							value && value.replace(/\₽\s?|(,*)/g, '')
-						}
-						formatter={value =>
-							value && !Number.isNaN(parseFloat(value))
-								? `₽ ${value}`.replace(
-										/\B(?=(\d{3})+(?!\d))/g,
-										',',
-								  )
-								: '₽ '
-						}
+						icon={'₽'}
 						hideControls
 					/>
 

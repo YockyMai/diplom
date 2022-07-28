@@ -11,9 +11,10 @@ export const ImageServer = ({
 }) => {
 	return (
 		<Image
+			alt="Изображение недоступно"
 			height={height && `${height}px`}
 			fit="contain"
-			src={`${$SERVER_URL}${src}`}
+			src={src}
 		/>
 	);
 };
