@@ -36,7 +36,9 @@ export const ProductInfo = ({ productId }: { productId: number }) => {
 							mt="xl"
 							icon={<AlertCircle size={16} />}
 							title={infoEl.title}>
-							<Text>{infoEl.description}</Text>
+							<Text style={{ whiteSpace: 'pre-line' }}>
+								{infoEl.description}
+							</Text>
 						</Alert>
 					))}
 				</Container>

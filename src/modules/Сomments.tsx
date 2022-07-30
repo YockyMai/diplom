@@ -5,14 +5,16 @@ import {
 	Button,
 	Center,
 	Container,
+	Group,
 	Kbd,
 	List,
 	Modal,
 	Stack,
+	Textarea,
 	Title,
 	Transition,
 } from '@mantine/core';
-import { InfoCircle } from 'tabler-icons-react';
+import { InfoCircle, MessageCircle, Typography } from 'tabler-icons-react';
 import { UserComment } from '../components/UI/UserComment';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
 import { createComment, getAllComments } from '../store/slices/commentsSlice';
@@ -62,22 +64,41 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 						maxWidth: '1200px',
 						margin: '0 auto',
 					}}>
-					<RichTextEditor
+					{/* <RichTextEditor
 						value={value}
 						onChange={onChange}
 						controls={[['bold', 'italic', 'underline']]}
 						style={{ maxWidth: '1200px', margin: '10px auto 0' }}
 						placeholder="Напиши свой отзыв о товаре"
+					/> */}
+					<Textarea
+						mt="xl"
+						value={value.trim()}
+						onChange={e => onChange(e.currentTarget.value)}
+						label={
+							<Group>
+								Ваш отзыв <Typography size={12} />
+							</Group>
+						}
+						placeholder="Напишите отзыв о товаре"
+						autosize
+						onKeyDown={e => {
+							if (
+								e.keyCode == 13 &&
+								!e.shiftKey &&
+								value.trim().length > 3
+							) {
+								sendReview();
+							}
+						}}
 					/>
-
 					<Button
 						onClick={sendReview}
-						disabled={value.length <= 11}
+						disabled={value.length < 3}
 						mt="xs">
 						Оставить отзыв
 					</Button>
-
-					<ActionIcon
+					{/* <ActionIcon
 						style={{
 							position: 'absolute',
 							top: 12,
@@ -86,7 +107,7 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 						}}
 						onClick={() => setEditorInfoModal(true)}>
 						<InfoCircle size={48} strokeWidth={2} />
-					</ActionIcon>
+					</ActionIcon> */}
 				</div>
 
 				<Title align="center" pl={20} pt={50} order={3}>

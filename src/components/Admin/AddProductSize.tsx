@@ -98,6 +98,7 @@ export const AddProductSize: FC<AddProductSize> = ({ sizes, setSizes }) => {
 				onChange={val => setCount(Number(val))}
 				label="Количество"
 				placeholder="Заголовок описания"
+				maxLength={6}
 			/>
 
 			<Button onClick={addSize} color="green">

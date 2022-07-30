@@ -64,6 +64,7 @@ export const AddBrand = () => {
 							setBrandName(e.currentTarget.value);
 						}}
 						required
+						maxLength={60}
 					/>
 					<Button onClick={addBrand} leftIcon={<DatabaseImport />}>
 						Добавть бренд

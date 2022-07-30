@@ -66,6 +66,7 @@ export const AddType = () => {
 							setTypeName(e.currentTarget.value);
 						}}
 						required
+						maxLength={60}
 					/>
 					<Button onClick={addType} leftIcon={<DatabaseImport />}>
 						Добавть тип

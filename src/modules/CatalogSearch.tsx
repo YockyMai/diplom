@@ -127,6 +127,7 @@ export const CatalogSearch: FC<CatalogSearchProps> = ({
 			data={items as []}
 			searchable
 			maxDropdownHeight={400}
+			maxLength={100}
 			nothingFound={
 				<Center>
 					<Group noWrap>
@@ -147,7 +148,10 @@ export const CatalogSearch: FC<CatalogSearchProps> = ({
 			transitionTimingFunction="ease"
 			onSearchChange={handleChangeSearchValue}
 			filter={(value, item) =>
-				item.label!.toLowerCase().includes(value.toLowerCase().trim())
+				item
+					.label!.toLowerCase()
+					.includes(value.toLowerCase().trim()) ||
+				item.type.toLowerCase().includes(value.toLowerCase().trim())
 			}
 			rightSection={<Search />}
 			onDropdownClose={closeSearchDropDown}

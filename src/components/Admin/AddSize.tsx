@@ -22,14 +22,19 @@ export const AddSize = () => {
 					message: 'Количество изменено',
 					title: 'Успешно!',
 				});
+				clearModalData();
 			});
 		}
 	};
 
-	const closeModal = () => {
-		setSizeModalOpen(false);
+	const clearModalData = () => {
 		setProductId(null);
 		setSizes([]);
+	};
+
+	const closeModal = () => {
+		setSizeModalOpen(false);
+		clearModalData();
 	};
 	return (
 		<div>

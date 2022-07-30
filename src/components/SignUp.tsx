@@ -33,7 +33,7 @@ export const SignUp = () => {
 	});
 
 	return (
-		<Box sx={{ maxWidth: 340 }} mx="auto">
+		<Box sx={{ width: 340 }} mx="auto">
 			<form
 				onSubmit={form.onSubmit(values =>
 					dispatch(

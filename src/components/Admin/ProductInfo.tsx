@@ -1,4 +1,12 @@
-import { Button, Stack, Table, Text, TextInput } from '@mantine/core';
+import {
+	Button,
+	Indicator,
+	Stack,
+	Table,
+	Text,
+	Textarea,
+	TextInput,
+} from '@mantine/core';
 import React, {
 	Dispatch,
 	FC,
@@ -45,14 +53,23 @@ export const ProductInfo: FC<ProductInfo> = ({
 				label="Заголовок"
 				placeholder="Заголовок описания"
 				required
+				maxLength={60}
 			/>
-			<TextInput
-				value={infoDescription}
-				onChange={e => setInfoDescription(e.currentTarget.value)}
-				label="Описание"
-				placeholder="Текст описания"
-				required
-			/>
+			<Indicator
+				position="bottom-end"
+				label={2000 - infoDescription.length}
+				size={18}>
+				<Textarea
+					value={infoDescription}
+					onChange={e => setInfoDescription(e.currentTarget.value)}
+					label="Описание"
+					placeholder="Текст описания"
+					required
+					autosize
+					maxLength={2000}
+				/>
+			</Indicator>
+
 			<Button onClick={addInfo} color="green">
 				Добавить описание
 			</Button>
@@ -63,16 +80,20 @@ export const ProductInfo: FC<ProductInfo> = ({
 						<tr>
 							<th>Заголовок</th>
 							<th>Описание</th>
-							<th>Действие</th>
 						</tr>
 					</thead>
 					<tbody>
 						{productInfo.map((el, index) => (
 							<tr key={el.description + index}>
-								<td>{el.title}</td>
-								<td>{el.description}</td>
-								<td>
+								<td style={{ minWidth: 90 }}>{el.title}</td>
+								<td style={{ whiteSpace: 'pre-line' }}>
+									{el.description}
+									<br />
 									<Button
+										style={{
+											float: 'right',
+											marginTop: '10px',
+										}}
 										color="red"
 										onClick={() => {
 											deleteInfoEl(index);

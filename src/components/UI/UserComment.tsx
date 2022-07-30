@@ -103,9 +103,9 @@ export const UserComment: FC<UserComment> = ({
 					maxWidth: '70%',
 					marginLeft: '50px',
 				}}>
-				<TypographyStylesProvider>
-					<div dangerouslySetInnerHTML={{ __html: value }} />
-				</TypographyStylesProvider>
+				<div
+					style={{ whiteSpace: 'pre-line' }}
+					dangerouslySetInnerHTML={{ __html: value }}></div>
 			</Spoiler>
 		</Stack>
 	);

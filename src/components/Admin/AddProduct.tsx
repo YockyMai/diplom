@@ -157,6 +157,7 @@ export const AddProduct = () => {
 						placeholder="Air Jordan"
 						variant="filled"
 						required
+						maxLength={60}
 					/>
 					<Select
 						value={selectedBrand}
@@ -165,6 +166,8 @@ export const AddProduct = () => {
 						placeholder="Выберите один"
 						data={brandsData}
 						required
+						maxLength={60}
+						searchable
 					/>
 					<Select
 						value={selectedType}
@@ -173,6 +176,8 @@ export const AddProduct = () => {
 						placeholder="Выберите один"
 						data={typesData}
 						required
+						searchable
+						maxLength={60}
 					/>
 					<NumberInput
 						error={
@@ -187,6 +192,7 @@ export const AddProduct = () => {
 						defaultValue={0}
 						icon={'₽'}
 						hideControls
+						maxLength={6}
 					/>
 
 					<ProductInfo

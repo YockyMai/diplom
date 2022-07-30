@@ -76,6 +76,7 @@ export const AddSizeInstance = () => {
 							setSizeError('');
 						}}
 						error={sizeError}
+						maxLength={3}
 					/>
 
 					<Button

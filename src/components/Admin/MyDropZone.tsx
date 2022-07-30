@@ -1,4 +1,10 @@
-import { Group, Text, useMantineTheme, MantineTheme } from '@mantine/core';
+import {
+	Group,
+	Text,
+	useMantineTheme,
+	MantineTheme,
+	Loader,
+} from '@mantine/core';
 import { Upload, Photo, X, Icon as TablerIcon } from 'tabler-icons-react';
 import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
@@ -35,6 +41,7 @@ export const dropzoneChildren = (
 	status: DropzoneStatus,
 	theme: MantineTheme,
 	fileSrc: string,
+	fileLoading: boolean,
 ) => (
 	<Group
 		position="center"
@@ -44,11 +51,16 @@ export const dropzoneChildren = (
 			<ImageServer src={fileSrc} />
 		) : (
 			<>
-				<ImageUploadIcon
-					status={status}
-					style={{ color: getIconColor(status, theme) }}
-					size={80}
-				/>
+				{fileLoading ? (
+					<Loader />
+				) : (
+					<ImageUploadIcon
+						status={status}
+						style={{ color: getIconColor(status, theme) }}
+						size={80}
+					/>
+				)}
+
 				<div>
 					<Text size="xl">
 						Перетащите изображение или нажмите для загрузки файла
@@ -71,6 +83,7 @@ export const MyDropZone: FC<MyDropZone> = ({ fileSrc, setFileSrc }) => {
 
 	const uploadFile = async (file: File) => {
 		try {
+			setFileLoading(true);
 			let formData = new FormData();
 			formData.append('img', file);
 
@@ -104,11 +117,13 @@ export const MyDropZone: FC<MyDropZone> = ({ fileSrc, setFileSrc }) => {
 			loading={fileLoading}
 			multiple={false}
 			onDrop={files => {
-				uploadFile(files[0]);
+				uploadFile(files[0]).finally(() => {
+					setFileLoading(false);
+				});
 			}}
 			onReject={files => console.log('rejected files', files)}
 			accept={IMAGE_MIME_TYPE}>
-			{status => dropzoneChildren(status, theme, fileSrc)}
+			{status => dropzoneChildren(status, theme, fileSrc, fileLoading)}
 		</Dropzone>
 	);
 };
