@@ -14,7 +14,7 @@ export const Admin = () => {
 	const { username } = useAppSelector(state => state.userState.user);
 
 	return (
-		<Container mt={100}>
+		<Container style={{ minHeight: '500px' }} mt={100}>
 			<Title align="center" order={3}>
 				Добро пожаловать {username}
 			</Title>

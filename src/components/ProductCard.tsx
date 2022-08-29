@@ -36,7 +36,6 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 			style={{
 				width: 300,
 				marginTop: 30,
-				overflow: 'hidden',
 			}}>
 			<Link to={`/catalog/product/${product.id}`}>
 				<Card radius="lg" shadow="sm" p="lg">
@@ -52,6 +51,7 @@ export const ProductCard: FC<ProductCard> = ({ product }) => {
 									src={product.img}
 									alt="Изображение недоступно"
 									width={280}
+									style={{ minHeight: '280px' }}
 								/>
 							) : (
 								''

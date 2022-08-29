@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mantine/carousel": "^5.2.4",
     "@mantine/core": "^4.2.10",
     "@mantine/dates": "^4.2.10",
     "@mantine/dropzone": "^4.2.12",
@@ -24,6 +25,7 @@
     "date-fns": "^2.28.0",
     "dayjs": "^1.11.3",
     "dotenv": "^16.0.1",
+    "embla-carousel-react": "^7.0.1",
     "jwt-decode": "^3.1.2",
     "qs": "^6.11.0",
     "react": "^18.2.0",

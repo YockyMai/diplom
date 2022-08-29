@@ -58,7 +58,7 @@ export const createComment = createAsyncThunk(
 			const response: AxiosResponse<Icomment> = await $authHost.post(
 				`api/comment/create`,
 				{
-					value: postData.value,
+					value: postData.value.trim(),
 					productId: postData.productId,
 				},
 			);

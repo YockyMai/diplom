@@ -61,6 +61,10 @@ function App() {
 									element={<Admin />}
 								/>
 							)}
+							{/* <Route
+								path={RouteNames.ABOUT}
+								element={<About />}
+							/> */}
 						</Route>
 
 						<Route path={RouteNames.AUTH} element={<Auth />}>

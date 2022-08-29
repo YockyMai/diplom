@@ -49,7 +49,7 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 		} else {
 			if (productId)
 				dispatch(createComment({ value, productId })).then(() => {
-					onChange('');
+					onChange(''.trim());
 					setRatingModal(true);
 				});
 		}
@@ -73,7 +73,7 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 					/> */}
 					<Textarea
 						mt="xl"
-						value={value.trim()}
+						value={value}
 						onChange={e => onChange(e.currentTarget.value)}
 						label={
 							<Group>

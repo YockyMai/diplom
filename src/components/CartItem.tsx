@@ -43,16 +43,16 @@ export const CartItem: FC<CartItem> = ({ cartItem }) => {
 	};
 
 	return (
-		<Card mt="xl">
+		<Card shadow="xl" mt="xl">
 			<Grid align="center" justify="space-between">
-				<Grid.Col span={2}>
+				<Grid.Col xs={12} sm={3} lg={2}>
 					{cartItem.product.img ? (
 						<ImageServer height={100} src={cartItem.product.img} />
 					) : (
 						<Text>Нет изображения</Text>
 					)}
 				</Grid.Col>
-				<Grid.Col span={4}>
+				<Grid.Col xs={6} sm={5} lg={4}>
 					<div>
 						<Text size="sm">
 							<Mark>{cartItem.product.brand.name}</Mark>
@@ -67,18 +67,19 @@ export const CartItem: FC<CartItem> = ({ cartItem }) => {
 						</Group>
 					</div>
 				</Grid.Col>
-				<Grid.Col span={2}>
+				<Grid.Col xs={6} sm={4} lg={2}>
 					<Title align="right" order={2}>
 						{currencyStringsFormatter.format(
 							cartItem.product.price,
 						)}
 					</Title>
 				</Grid.Col>
-				<Grid.Col span={3}>
-					<Group position="center" align="center">
-						<Button onClick={findSimilarProducts}>
-							Найти похожие
-						</Button>
+				<Grid.Col xs={12} sm={12} lg={3}>
+					<Group
+						noWrap
+						position="center"
+						align="center"
+						style={{ float: 'right' }}>
 						<Popover
 							opened={popoverIsOpen}
 							onClose={() => {
@@ -116,6 +117,9 @@ export const CartItem: FC<CartItem> = ({ cartItem }) => {
 								</Button>
 							</Group>
 						</Popover>
+						<Button onClick={findSimilarProducts}>
+							Найти похожие
+						</Button>
 					</Group>
 				</Grid.Col>
 			</Grid>

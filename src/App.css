@@ -6,6 +6,7 @@ img {
 	border-radius: 15px !important;
 }
 
-.body {
-	min-height: '100vh' !important;
+body {
+	margin: 0px !important;
+	overflow-x: hidden;
 }

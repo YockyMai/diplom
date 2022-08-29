@@ -37,13 +37,13 @@ export const Basket = () => {
 		<div>
 			{items.length > 0 ? (
 				<Grid grow justify="space-between">
-					<Grid.Col span={8}>
+					<Grid.Col lg={8}>
 						{items.map(item => (
 							<CartItem key={item.id} cartItem={item} />
 						))}
 					</Grid.Col>
 
-					<Grid.Col span={4}>
+					<Grid.Col lg={4}>
 						<Group
 							pt={60}
 							pb={20}

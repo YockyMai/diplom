@@ -4,6 +4,7 @@ import {
 	DeviceDesktopAnalytics,
 	DoorExit,
 	Login,
+	MoonStars,
 	NewSection,
 	Sun,
 } from 'tabler-icons-react';
@@ -39,8 +40,11 @@ export const UserControlPanel = () => {
 	return (
 		<Menu>
 			<Menu.Label>
-				{username}
-				<br />
+				{username && (
+					<>
+						{username} <br />
+					</>
+				)}
 				Действия с акканутом
 			</Menu.Label>
 
@@ -73,7 +77,15 @@ export const UserControlPanel = () => {
 			)}
 
 			<Menu.Label>Тема</Menu.Label>
-			<Menu.Item onClick={toggleColorScheme} icon={<Sun size={18} />}>
+			<Menu.Item
+				onClick={toggleColorScheme}
+				icon={
+					colorScheme === 'dark' ? (
+						<Sun size={18} />
+					) : (
+						<MoonStars size={18} />
+					)
+				}>
 				{colorScheme === 'dark' ? 'Светлая тема' : 'Темная тема'}
 			</Menu.Item>
 			{role === 'ADMIN' && (
