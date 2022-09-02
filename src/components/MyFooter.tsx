@@ -58,11 +58,10 @@ export const MyFooter = () => {
 						</Stack>
 					</Grid.Col>
 					<Grid.Col xs={12} md={4} sm={4}>
-						<Title order={3}>Контакты</Title>
+						<Title order={3}>Время работы</Title>
 						<Stack mt="xl" spacing="xl">
-							<Link to="/">
-								<Text component="a"></Text>
-							</Link>
+							<Text>Пн - чт : 9:00, 22:00 мск.</Text>
+							<Text>Пт - Сб : 12:00, 21:00 мск.</Text>
 						</Stack>
 					</Grid.Col>
 				</Grid>

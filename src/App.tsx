@@ -20,6 +20,7 @@ import { check } from './store/slices/userSlice';
 import { TopScroll } from './components/UI/TopScroll';
 import { getCart } from './store/slices/cartSlice';
 import { Admin } from './pages/Admin';
+import { About } from './pages/About';
 
 function App() {
 	const theme = useAppSelector(state => state.themeState.theme);
@@ -61,10 +62,10 @@ function App() {
 									element={<Admin />}
 								/>
 							)}
-							{/* <Route
+							<Route
 								path={RouteNames.ABOUT}
 								element={<About />}
-							/> */}
+							/>
 						</Route>
 
 						<Route path={RouteNames.AUTH} element={<Auth />}>

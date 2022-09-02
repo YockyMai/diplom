@@ -40,7 +40,6 @@ export const CatalogItems = () => {
 				currentPage: '1',
 				minPrice,
 				maxPrice,
-
 				typeId: categoryNumber,
 			});
 			navigate(`/catalog/?${searchFiled}`);
