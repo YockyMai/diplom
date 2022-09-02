@@ -62,7 +62,7 @@ export const Orders = () => {
 											key={item.id}
 											onClick={() =>
 												navigate(
-													`/catalog/product/${item.id}`,
+													`/catalog/product/${item.product.id}`,
 												)
 											}
 											style={{ cursor: 'pointer' }}>

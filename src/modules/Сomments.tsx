@@ -47,9 +47,9 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 		if (!isAuth) {
 			setAuthModal(true);
 		} else {
+			onChange(''.trim());
 			if (productId)
 				dispatch(createComment({ value, productId })).then(() => {
-					onChange(''.trim());
 					setRatingModal(true);
 				});
 		}
@@ -64,13 +64,6 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 						maxWidth: '1200px',
 						margin: '0 auto',
 					}}>
-					{/* <RichTextEditor
-						value={value}
-						onChange={onChange}
-						controls={[['bold', 'italic', 'underline']]}
-						style={{ maxWidth: '1200px', margin: '10px auto 0' }}
-						placeholder="Напиши свой отзыв о товаре"
-					/> */}
 					<Textarea
 						mt="xl"
 						value={value}
@@ -88,26 +81,17 @@ export const Сomments: FC<Comments> = ({ productId }) => {
 								!e.shiftKey &&
 								value.trim().length > 3
 							) {
+								e.preventDefault();
 								sendReview();
 							}
 						}}
 					/>
 					<Button
 						onClick={sendReview}
-						disabled={value.length < 3}
+						disabled={value.trim().length < 3}
 						mt="xs">
 						Оставить отзыв
 					</Button>
-					{/* <ActionIcon
-						style={{
-							position: 'absolute',
-							top: 12,
-							right: '10px',
-							zIndex: 1,
-						}}
-						onClick={() => setEditorInfoModal(true)}>
-						<InfoCircle size={48} strokeWidth={2} />
-					</ActionIcon> */}
 				</div>
 
 				<Title align="center" pl={20} pt={50} order={3}>
