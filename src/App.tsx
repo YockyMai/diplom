@@ -21,11 +21,13 @@ import { TopScroll } from './components/UI/TopScroll';
 import { getCart } from './store/slices/cartSlice';
 import { Admin } from './pages/Admin';
 import { About } from './pages/About';
+import { NotFound } from './pages/NotFound';
 
 function App() {
 	const theme = useAppSelector(state => state.themeState.theme);
 	const userId = useAppSelector(state => state.userState.user.id);
 	const role = useAppSelector(state => state.userState.user.role);
+	const isAuth = useAppSelector(state => state.userState.isAuth);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -55,7 +57,13 @@ function App() {
 									element={<Product />}
 								/>
 							</Route>
-							<Route path={RouteNames.CART} element={<Cart />} />
+							{isAuth && (
+								<Route
+									path={RouteNames.CART}
+									element={<Cart />}
+								/>
+							)}
+
 							{role === 'ADMIN' && (
 								<Route
 									path={RouteNames.ADMIN}
@@ -79,6 +87,7 @@ function App() {
 								element={<Login />}
 							/>
 						</Route>
+						<Route path="*" element={<NotFound />} />
 					</Routes>
 					<TopScroll />
 				</div>

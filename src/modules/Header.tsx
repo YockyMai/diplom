@@ -89,7 +89,7 @@ export default function Header() {
 					<Grid.Col span={2}>
 						<Navbar.Section>
 							<Group direction="column" align="end">
-								<CartButton />
+								{isAuth && <CartButton />}
 							</Group>
 						</Navbar.Section>
 					</Grid.Col>
