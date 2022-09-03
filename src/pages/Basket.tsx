@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Grid, Group, Modal, Switch, Text, Title } from '@mantine/core';
+import {
+	Button,
+	Grid,
+	Group,
+	Modal,
+	Stack,
+	Switch,
+	Table,
+	Text,
+	Title,
+} from '@mantine/core';
 import { CartItem } from '../components/CartItem';
 import currencyStringsFormatter from '../utils/currencyStringsFormatter';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
@@ -58,6 +68,24 @@ export const Basket = () => {
 						</Group>
 
 						<hr />
+
+						<Table>
+							<thead>
+								<tr>
+									<th>Товар</th>
+									<th>Цена</th>
+								</tr>
+							</thead>
+							<tbody>
+								{items.map(item => (
+									<tr>
+										<td>{item.product.name}</td>
+										<td>{item.product.price}</td>
+									</tr>
+								))}
+							</tbody>
+						</Table>
+
 						<Group
 							pt={20}
 							pb="xl"

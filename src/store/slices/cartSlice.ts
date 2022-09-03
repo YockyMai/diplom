@@ -138,10 +138,13 @@ export const cartSlice = createSlice({
 		});
 
 		builder.addCase(placeOrder.rejected, state => {
-			alert('ОШИБКА МИНУС ДЕНЬГИ БЫДЛО');
+			alert('error))');
 		});
 
 		builder.addCase(deleteFromCart.fulfilled, (state, action) => {
+			state.totalPrice =
+				state.totalPrice -
+				state.items.find(el => el.id === action.payload)!.product.price;
 			state.items = state.items.filter(el => el.id !== action.payload);
 		});
 	},

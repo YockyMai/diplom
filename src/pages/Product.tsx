@@ -82,12 +82,14 @@ export const Product = () => {
 		}
 	};
 
+	console.log(selectedSize);
+
 	const dataSizes: SelectItem[] = [];
 	item?.sizes.forEach(obj => {
 		dataSizes.push({
 			label: `Размер: ${obj.size.size}RU, Осталось ${obj.count} экземпляров`,
 			value: `${obj.sizeId}`,
-			disabled: obj.count <= 0 ? true : false,
+			disabled: obj.count <= 0,
 		});
 	});
 
