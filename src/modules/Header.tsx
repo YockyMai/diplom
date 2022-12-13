@@ -3,22 +3,17 @@ import {
 	Header as Head,
 	Text,
 	Navbar,
-	TextInput,
-	Avatar,
 	Grid,
 	Group,
 	Button,
 	Image,
 	useMantineTheme,
-	Indicator,
 	Burger,
 	Drawer,
 	Stack,
 	Modal,
-	Skeleton,
 } from '@mantine/core';
-import { Search, ShoppingCart } from 'tabler-icons-react';
-import { CatalogFilter } from '../components/CatalogFilter';
+import { Search } from 'tabler-icons-react';
 import { UserControlPanel } from '../components/UserControlPanel';
 import logo from '../assets/images/logo.png';
 import { RouteNames } from '../types/enums/router';
@@ -57,15 +52,17 @@ export default function Header() {
 					<Grid.Col span={2}>
 						<Navbar.Section>
 							<Link to={RouteNames.MAIN}>
-								<Group>
-									<Image height={36} width={50} src={logo} />
+								<Group noWrap mt={-2} sx={{width: "fit-content"}}>
+									<Image height={45} width={45} src={logo} />
 									<Text
-										weight={200}
-										color={
-											theme.colorScheme === 'dark'
-												? theme.colors.gray[0]
-												: theme.colors.gray[9]
-										}>
+										variant={"gradient"}
+										gradient={{from: "rgb(51,76,255)", to: "rgb(35,180,255)", deg: 0}}
+										ml={-10}
+										size={"lg"}
+										sx={{whiteSpace: "nowrap"}}
+										weight={900}
+										transform={"uppercase"}
+									>
 										Sneakers always
 									</Text>
 								</Group>

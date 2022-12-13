@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a697c89a-abf9-4dbd-a8cf-aec2912dab10" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/images/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/images/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SignUp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SignUp.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/CatalogSearch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/CatalogSearch.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Auth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Auth.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Main.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,13 +34,33 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/progects/inst/backend",
+    "last_opened_file_path": "D:/Progects/diplom",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\79276\\AppData\\Roaming\\npm\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "ts.external.directory.path": "D:\\Progects\\diplom\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Progects\diplom\src\assets\images" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -43,10 +70,35 @@
       <option name="presentableId" value="Default" />
       <updated>1661804188595</updated>
       <workItem from="1661804192030" duration="30000" />
+      <workItem from="1662402005822" duration="128000" />
+      <workItem from="1662402144700" duration="43000" />
+      <workItem from="1662402197208" duration="39000" />
+      <workItem from="1662413153929" duration="413000" />
+      <workItem from="1662439485620" duration="1279000" />
+      <workItem from="1662442225606" duration="1366000" />
+      <workItem from="1662453903347" duration="2500000" />
+      <workItem from="1662536568265" duration="3122000" />
+      <workItem from="1662839992014" duration="47000" />
+      <workItem from="1662979517565" duration="14000" />
+      <workItem from="1665599897704" duration="349000" />
+      <workItem from="1669118717684" duration="1312000" />
+      <workItem from="1669124787482" duration="659000" />
+      <workItem from="1670933713138" duration="4630000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

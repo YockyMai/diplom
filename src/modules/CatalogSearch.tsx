@@ -12,8 +12,6 @@ import { MoodSad, Search, Star } from 'tabler-icons-react';
 import currencyStringsFormatter from '../utils/currencyStringsFormatter';
 import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
 import { closeSearch, getSearchItems } from '../store/slices/searchDropDown';
-import { $SERVER_URL } from '../http';
-import { useNavigate } from 'react-router-dom';
 
 export interface SearchItemProps extends React.ComponentPropsWithoutRef<'div'> {
 	value: string;
@@ -96,7 +94,7 @@ export const CatalogSearch: FC<CatalogSearchProps> = ({
 
 		if (searchTimeout !== false) {
 			clearTimeout(searchTimeout);
-			setTyping(true);
+			setTyping(true)
 		}
 
 		setSearchTimeout(
