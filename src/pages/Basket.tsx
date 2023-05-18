@@ -1,145 +1,129 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-	Button,
-	Grid,
-	Group,
-	Modal,
-	Stack,
-	Switch,
-	Table,
-	Text,
-	Title,
-} from '@mantine/core';
-import { CartItem } from '../components/CartItem';
-import currencyStringsFormatter from '../utils/currencyStringsFormatter';
-import { useAppDispatch, useAppSelector } from '../hooks/react-redux';
-import { placeOrder } from '../store/slices/cartSlice';
+  Button,
+  Grid,
+  Group,
+  Modal,
+  Switch,
+  Table,
+  Text,
+  Title,
+} from "@mantine/core";
+import { CartItem } from "../components/CartItem";
+import currencyStringsFormatter from "../utils/currencyStringsFormatter";
+import { useAppDispatch, useAppSelector } from "../hooks/react-redux";
+import { placeOrder } from "../store/slices/cartSlice";
 
 export const Basket = () => {
-	const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-	const items = useAppSelector(state => state.cartState.items);
-	const totalPrice = useAppSelector(state => state.cartState.totalPrice);
+  const items = useAppSelector((state) => state.cartState.items);
+  const totalPrice = useAppSelector((state) => state.cartState.totalPrice);
 
-	const [isLoading, setLoading] = useState(false);
-	const [orderModal, setOrderModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [orderModal, setOrderModal] = useState(false);
 
-	const [showOrderInfo, switchShowOrderInfo] = useState(false);
+  const [showOrderInfo, switchShowOrderInfo] = useState(false);
 
-	const orderPayment = () => {
-		setLoading(true);
-		dispatch(placeOrder()).then(() => {
-			if (localStorage.getItem('show/orderInfo') !== 'no') {
-				setOrderModal(true);
-			}
-			setLoading(false);
-		});
-	};
+  const orderPayment = () => {
+    setLoading(true);
+    dispatch(placeOrder()).then(() => {
+      if (localStorage.getItem("show/orderInfo") !== "no") {
+        setOrderModal(true);
+      }
+      setLoading(false);
+    });
+  };
 
-	const closeOrderInfoModal = () => {
-		if (showOrderInfo === true) {
-			localStorage.setItem('show/orderInfo', 'no');
-		}
-		setOrderModal(false);
-	};
+  const closeOrderInfoModal = () => {
+    if (showOrderInfo === true) {
+      localStorage.setItem("show/orderInfo", "no");
+    }
+    setOrderModal(false);
+  };
 
-	return (
-		<div>
-			{items.length > 0 ? (
-				<Grid grow justify="space-between">
-					<Grid.Col lg={8}>
-						{items.map(item => (
-							<CartItem key={item.id} cartItem={item} />
-						))}
-					</Grid.Col>
+  return (
+    <div>
+      {items.length > 0 ? (
+        <Grid grow justify="space-between">
+          <Grid.Col lg={8}>
+            {items.map((item) => (
+              <CartItem key={item.id} cartItem={item} />
+            ))}
+          </Grid.Col>
 
-					<Grid.Col lg={4}>
-						<Group
-							pt={60}
-							pb={20}
-							grow
-							position="center"
-							align="center">
-							<Text>{items.length} товара :</Text>
-							<Text align="right">
-								{' '}
-								{currencyStringsFormatter.format(totalPrice)}
-							</Text>
-						</Group>
+          <Grid.Col lg={4}>
+            <Group pt={60} pb={20} grow position="center" align="center">
+              <Text>{items.length} товара :</Text>
+              <Text align="right">
+                {" "}
+                {currencyStringsFormatter.format(totalPrice)}
+              </Text>
+            </Group>
 
-						<hr />
+            <hr />
 
-						<Table>
-							<thead>
-								<tr>
-									<th>Товар</th>
-									<th>Цена</th>
-								</tr>
-							</thead>
-							<tbody>
-								{items.map(item => (
-									<tr>
-										<td>{item.product.name}</td>
-										<td>{item.product.price}</td>
-									</tr>
-								))}
-							</tbody>
-						</Table>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Товар</th>
+                  <th>Цена</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item) => (
+                  <tr>
+                    <td>{item.product.name}</td>
+                    <td>{item.product.discountPrice || item.product.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
 
-						<Group
-							pt={20}
-							pb="xl"
-							grow
-							position="center"
-							align="center">
-							<Text>Итог :</Text>
-							<Text align="right" size="xl" weight="600">
-								{currencyStringsFormatter.format(totalPrice)}
-							</Text>
-						</Group>
+            <Group pt={20} pb="xl" grow position="center" align="center">
+              <Text>Итог :</Text>
+              <Text align="right" size="xl" weight="600">
+                {currencyStringsFormatter.format(totalPrice)}
+              </Text>
+            </Group>
 
-						<Button
-							onClick={orderPayment}
-							loading={isLoading}
-							fullWidth
-							color="orange">
-							Оформить заказ
-						</Button>
-					</Grid.Col>
-				</Grid>
-			) : (
-				<Text size="xl" align="center" mt="20%">
-					Корзина пустая
-				</Text>
-			)}
+            <Button
+              onClick={orderPayment}
+              loading={isLoading}
+              fullWidth
+              color="orange"
+            >
+              Оформить заказ
+            </Button>
+          </Grid.Col>
+        </Grid>
+      ) : (
+        <Text size="xl" align="center" mt="20%">
+          Корзина пустая
+        </Text>
+      )}
 
-			<Modal
-				size="lg"
-				onClose={() => setOrderModal(false)}
-				opened={orderModal}>
-				<Title order={3} align="center" mt="xl">
-					Заказ успешно оформлен
-				</Title>
-				<Text mt="xl">
-					Перейдите в "Ваши заказы", чтобы просмотреть статус заказа
-				</Text>
-				<Text mt="xl">
-					Там можно просмотреть ваши прошлые заказы и оставить отзыв о
-					товаре!
-				</Text>
+      <Modal size="lg" onClose={() => setOrderModal(false)} opened={orderModal}>
+        <Title order={3} align="center" mt="xl">
+          Заказ успешно оформлен
+        </Title>
+        <Text mt="xl">
+          Перейдите в "Ваши заказы", чтобы просмотреть статус заказа
+        </Text>
+        <Text mt="xl">
+          Там можно просмотреть ваши прошлые заказы и оставить отзыв о товаре!
+        </Text>
 
-				<Group position="apart" align="center" mt="xl">
-					<Switch
-						checked={showOrderInfo}
-						onChange={e =>
-							switchShowOrderInfo(e.currentTarget.checked)
-						}
-						label="Больше не показывать"
-					/>
+        <Group position="apart" align="center" mt="xl">
+          <Switch
+            checked={showOrderInfo}
+            onChange={(e) => switchShowOrderInfo(e.currentTarget.checked)}
+            label="Больше не показывать"
+          />
 
-					<Button onClick={closeOrderInfoModal}>Понятно</Button>
-				</Group>
-			</Modal>
-		</div>
-	);
+          <Button onClick={closeOrderInfoModal}>Понятно</Button>
+        </Group>
+      </Modal>
+    </div>
+  );
 };

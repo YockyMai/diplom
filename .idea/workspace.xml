@@ -4,9 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a697c89a-abf9-4dbd-a8cf-aec2912dab10" name="Changes" comment="Иконки в полях, выделил лого, подсказки для пароля и имени, повтор пароля">
+    <list default="true" id="a697c89a-abf9-4dbd-a8cf-aec2912dab10" name="Changes" comment="Добавил инфу для чего нужна регистрация">
+      <change afterPath="$PROJECT_DIR$/src/components/Admin/EditProduct.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Help.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Admin/AddProduct.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Admin/AddProduct.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Admin/ProductInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Admin/ProductInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CartItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CartItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CatalogLinkCards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CatalogLinkCards.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProductCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProductCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/UserControlPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UserControlPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/http/adminApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/adminApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/http/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/CatalogSearch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/CatalogSearch.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Admin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Admin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Basket.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Basket.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Catalog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Catalog.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Orders.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Product.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Product.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/slices/cartSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/slices/cartSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/slices/orderSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/slices/orderSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/slices/searchDropDown.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/slices/searchDropDown.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/objects/product.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/objects/product.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,29 +40,32 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectId" id="2E2qm1YrXCfd1D2TGke7lrTd36F" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Project.color": "3e4f56",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/Progects/diplom",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\79276\\AppData\\Roaming\\npm\\node_modules\\prettier",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
-    "ts.external.directory.path": "D:\\Progects\\diplom\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Project.color&quot;: &quot;3e4f56&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Progects/diplom-api&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\79276\\AppData\\Roaming\\npm\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\Progects\\diplom\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Progects\diplom\src\assets\images" />
@@ -83,7 +107,25 @@
       <workItem from="1669124787482" duration="659000" />
       <workItem from="1670933713138" duration="4781000" />
       <workItem from="1670942964868" duration="311000" />
-      <workItem from="1670976983101" duration="1983000" />
+      <workItem from="1670976983101" duration="2062000" />
+      <workItem from="1671032678752" duration="1348000" />
+      <workItem from="1671230768730" duration="2272000" />
+      <workItem from="1671233936958" duration="37000" />
+      <workItem from="1671350780262" duration="1290000" />
+      <workItem from="1680549803048" duration="198000" />
+      <workItem from="1682269190563" duration="621000" />
+      <workItem from="1682333500810" duration="68000" />
+      <workItem from="1682365420080" duration="7000" />
+      <workItem from="1682852190270" duration="23000" />
+      <workItem from="1682852429659" duration="9977000" />
+      <workItem from="1682887471523" duration="320000" />
+      <workItem from="1683736510282" duration="1241000" />
+      <workItem from="1684019058952" duration="2439000" />
+      <workItem from="1684050727420" duration="594000" />
+      <workItem from="1684062329461" duration="611000" />
+      <workItem from="1684270578564" duration="600000" />
+      <workItem from="1684273560322" duration="3000" />
+      <workItem from="1684322076731" duration="26000" />
     </task>
     <task id="LOCAL-00001" summary="Иконки в полях, выделил лого, подсказки для пароля и имени, повтор пароля">
       <created>1670938503010</created>
@@ -92,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670938503010</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Добавил инфу для чего нужна регистрация">
+      <created>1670979022008</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1670979022008</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,6 +160,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Иконки в полях, выделил лого, подсказки для пароля и имени, повтор пароля" />
-    <option name="LAST_COMMIT_MESSAGE" value="Иконки в полях, выделил лого, подсказки для пароля и имени, повтор пароля" />
+    <MESSAGE value="Добавил инфу для чего нужна регистрация" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил инфу для чего нужна регистрация" />
   </component>
 </project>
