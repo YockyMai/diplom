@@ -12,8 +12,11 @@ import {
 import { CatalogLinkCards } from "../components/CatalogLinkCards";
 import { CirclePlus, UserCircle } from "tabler-icons-react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../hooks/react-redux";
 
 export const Main = () => {
+  const isAuth = useAppSelector((state) => state.userState.isAuth);
+
   return (
     <Container mt={100} size={"xl"}>
       <Stack style={{ textAlign: "center" }}>
@@ -26,41 +29,43 @@ export const Main = () => {
         </Text>
         <CatalogLinkCards />
       </Stack>
-      <Container mt={80} size={"sm"}>
-        <Alert
-          title={
-            <Text align={"center"} weight={900}>
-              Зарегистрируйтесь на нашем сайте и получите следующие
-              преимущества:
-            </Text>
-          }
-        >
-          <Stack align={"left"} mt="xl">
-            <Center>
-              <List spacing={4}>
-                <List.Item icon={<CirclePlus color={"#228DE9"} />}>
-                  Доступ к премиум товарам высшего качества.
-                </List.Item>
-                <List.Item icon={<CirclePlus color={"#228DE9"} />}>
-                  Возможность добавлять товары в корзину и совершать покупки.
-                </List.Item>
-                <List.Item icon={<CirclePlus color={"#228DE9"} />}>
-                  Возможность комментировать и оставлять отзывы о товарах.
-                </List.Item>
-              </List>
-            </Center>
-            <Button
-              mb={"sm"}
-              leftIcon={<UserCircle />}
-              component={Link}
-              to={"/auth/signup"}
-              m={"auto"}
-            >
-              Зарегистрироваться
-            </Button>
-          </Stack>
-        </Alert>
-      </Container>
+      {!isAuth && (
+        <Container mt={80} size={"sm"}>
+          <Alert
+            title={
+              <Text align={"center"} weight={900}>
+                Зарегистрируйтесь на нашем сайте и получите следующие
+                преимущества:
+              </Text>
+            }
+          >
+            <Stack align={"left"} mt="xl">
+              <Center>
+                <List spacing={4}>
+                  <List.Item icon={<CirclePlus color={"#228DE9"} />}>
+                    Доступ к премиум товарам высшего качества.
+                  </List.Item>
+                  <List.Item icon={<CirclePlus color={"#228DE9"} />}>
+                    Возможность добавлять товары в корзину и совершать покупки.
+                  </List.Item>
+                  <List.Item icon={<CirclePlus color={"#228DE9"} />}>
+                    Возможность комментировать и оставлять отзывы о товарах.
+                  </List.Item>
+                </List>
+              </Center>
+              <Button
+                mb={"sm"}
+                leftIcon={<UserCircle />}
+                component={Link}
+                to={"/auth/signup"}
+                m={"auto"}
+              >
+                Зарегистрироваться
+              </Button>
+            </Stack>
+          </Alert>
+        </Container>
+      )}
     </Container>
   );
 };

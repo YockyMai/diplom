@@ -4,15 +4,18 @@ import {
   Grid,
   Group,
   Modal,
-  Switch,
+  Select,
+  Stack,
   Table,
   Text,
+  TextInput,
   Title,
 } from "@mantine/core";
 import { CartItem } from "../components/CartItem";
 import currencyStringsFormatter from "../utils/currencyStringsFormatter";
 import { useAppDispatch, useAppSelector } from "../hooks/react-redux";
 import { placeOrder } from "../store/slices/cartSlice";
+import { showNotification } from "@mantine/notifications";
 
 export const Basket = () => {
   const dispatch = useAppDispatch();
@@ -21,16 +24,26 @@ export const Basket = () => {
   const totalPrice = useAppSelector((state) => state.cartState.totalPrice);
 
   const [isLoading, setLoading] = useState(false);
+  const [address, setAddress] = useState<string | null>(null);
   const [orderModal, setOrderModal] = useState(false);
 
   const [showOrderInfo, switchShowOrderInfo] = useState(false);
 
+  const openOrderModal = () => {
+    setOrderModal(true);
+  };
+
   const orderPayment = () => {
+    if (!address) {
+      showNotification({
+        color: "red",
+        message: "Заполните обязательные поля для самовывоза",
+      });
+      return;
+    }
+
     setLoading(true);
-    dispatch(placeOrder()).then(() => {
-      if (localStorage.getItem("show/orderInfo") !== "no") {
-        setOrderModal(true);
-      }
+    dispatch(placeOrder(address)).then(() => {
       setLoading(false);
     });
   };
@@ -88,7 +101,7 @@ export const Basket = () => {
             </Group>
 
             <Button
-              onClick={orderPayment}
+              onClick={openOrderModal}
               loading={isLoading}
               fullWidth
               color="orange"
@@ -103,26 +116,53 @@ export const Basket = () => {
         </Text>
       )}
 
-      <Modal size="lg" onClose={() => setOrderModal(false)} opened={orderModal}>
-        <Title order={3} align="center" mt="xl">
-          Заказ успешно оформлен
-        </Title>
-        <Text mt="xl">
-          Перейдите в "Ваши заказы", чтобы просмотреть статус заказа
-        </Text>
-        <Text mt="xl">
-          Там можно просмотреть ваши прошлые заказы и оставить отзыв о товаре!
-        </Text>
-
-        <Group position="apart" align="center" mt="xl">
-          <Switch
-            checked={showOrderInfo}
-            onChange={(e) => switchShowOrderInfo(e.currentTarget.checked)}
-            label="Больше не показывать"
-          />
-
-          <Button onClick={closeOrderInfoModal}>Понятно</Button>
-        </Group>
+      <Modal
+        size="lg"
+        title={items.length > 0 ? "Где заберете товар?" : "Готово!"}
+        onClose={() => setOrderModal(false)}
+        opened={orderModal}
+      >
+        {items.length > 0 ? (
+          <Stack>
+            <Select
+              label={"Магазин"}
+              placeholder={"Выберите точку где будете забирать заказ"}
+              data={[
+                {
+                  value:
+                    "ул. 50 лет Октября, 9, Уфа, Респ. Башкортостан, 450005",
+                  label:
+                    "ул. 50 лет Октября, 9, Уфа, Респ. Башкортостан, 450005",
+                },
+              ]}
+              value={address}
+              onChange={setAddress}
+            />
+            <Button loading={isLoading} onClick={orderPayment}>
+              Готово!
+            </Button>
+          </Stack>
+        ) : (
+          <>
+            <Title order={3} align="center" mt="xl">
+              Заказ успешно оформлен
+            </Title>
+            <Text mt="xl">
+              Перейдите в "Ваши заказы", чтобы просмотреть статус заказа
+            </Text>
+            <Text mt="xl">
+              Там можно просмотреть ваши прошлые заказы и оставить отзыв о
+              товаре!
+            </Text>
+            <Text mt="xl">
+              Забрать товар можно по адресу - {address} в течении одной рабочей
+              недели
+            </Text>
+            <Group position="apart" align="center" mt="xl">
+              <Button onClick={closeOrderInfoModal}>Понятно</Button>
+            </Group>
+          </>
+        )}
       </Modal>
     </div>
   );

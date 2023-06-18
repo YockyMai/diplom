@@ -5,6 +5,7 @@ import { IProduct } from "../../types/objects/product";
 
 export interface IOrder {
   id: number;
+  address: string;
   status: "active" | "closed";
   createdAt: string;
   updatedAt: string;
@@ -56,7 +57,7 @@ export const orderSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(getOrders.fulfilled, (state, action) => {
       state.orders = action.payload;
-
+      console.log(action);
       action.payload.forEach((order, index) => {
         let sum = 0;
         order.order_products.forEach((product) => {

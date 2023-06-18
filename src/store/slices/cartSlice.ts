@@ -71,9 +71,9 @@ export const addProductToCart = createAsyncThunk(
 
 export const placeOrder = createAsyncThunk(
   "cartSlice/placeOrder",
-  async (_, { rejectWithValue }) => {
+  async (address: string, { rejectWithValue }) => {
     try {
-      const response = await $authHost.post("api/order/");
+      const response = await $authHost.post("api/order/", { address });
 
       if (response.status !== 200) {
         throw new Error("Server Error");

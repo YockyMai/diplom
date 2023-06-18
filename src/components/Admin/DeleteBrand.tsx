@@ -1,109 +1,103 @@
 import {
-	Alert,
-	Button,
-	Modal,
-	Select,
-	SelectItem,
-	Stack,
-	Text,
-} from '@mantine/core';
-import React, { useEffect, useState } from 'react';
+  Alert,
+  Button,
+  Modal,
+  Select,
+  SelectItem,
+  Stack,
+  Text,
+} from "@mantine/core";
+import React, { useEffect, useState } from "react";
 import {
-	DatabaseOff,
-	MoodHappy,
-	MoodSad,
-	SquareMinus,
-} from 'tabler-icons-react';
-import { deleteBrand } from '../../http/adminApi';
-import { getBrands } from '../../http/getApi';
-import { validError } from '../../utils/validError';
+  DatabaseOff,
+  MoodHappy,
+  MoodSad,
+  SquareMinus,
+} from "tabler-icons-react";
+import { deleteBrand } from "../../http/adminApi";
+import { getBrands } from "../../http/getApi";
+import { validError } from "../../utils/validError";
 
 export const DeleteBrand = () => {
-	const [modalIsOpen, setModalOpen] = useState(false);
+  const [modalIsOpen, setModalOpen] = useState(false);
 
-	const [brandId, setBrandId] = useState('');
-	const [brandData, setBrandData] = useState<SelectItem[]>([]);
+  const [brandId, setBrandId] = useState("");
+  const [brandData, setBrandData] = useState<SelectItem[]>([]);
 
-	const [status, setStatus] = useState<null | 'ok' | 'success'>(null);
-	const [statusText, setStatusText] = useState('');
+  const [status, setStatus] = useState<null | "ok" | "success">(null);
+  const [statusText, setStatusText] = useState("");
 
-	useEffect(() => {
-		getBrands().then(brands => {
-			const convertedArr: SelectItem[] = [];
+  useEffect(() => {
+    getBrands().then((brands) => {
+      const convertedArr: SelectItem[] = [];
 
-			brands?.forEach(brandItem => {
-				convertedArr.push({
-					value: String(brandItem.id),
-					label: brandItem.name,
-				});
-			});
+      brands?.forEach((brandItem) => {
+        convertedArr.push({
+          value: String(brandItem.id),
+          label: brandItem.name,
+        });
+      });
 
-			setBrandData(convertedArr);
-		});
-	}, []);
+      setBrandData(convertedArr);
+    });
+  }, []);
 
-	const removeBrand = () => {
-		if (brandId) {
-			deleteBrand(brandId).then(res => {
-				setBrandId('');
-				setStatus(res.status);
-				setStatusText(res.message);
+  const removeBrand = () => {
+    if (brandId) {
+      deleteBrand(brandId).then((res) => {
+        setBrandId("");
+        setStatus(res.status);
+        setStatusText(res.message);
 
-				let updatedBrands = brandData;
-				updatedBrands.filter(brand => brand.value !== brandId);
+        let updatedBrands = brandData;
+        updatedBrands.filter((brand) => brand.value !== brandId);
 
-				setBrandData(updatedBrands);
-			});
-		}
-	};
+        setBrandData(updatedBrands);
+      });
+    }
+  };
 
-	const closeModal = () => {
-		setBrandId('');
-		setStatusText('');
-		setStatus(null);
-		setModalOpen(false);
-	};
-	return (
-		<div>
-			<Alert title="Удалить бренд" icon={<SquareMinus />} color="red">
-				<Text>
-					<strong>Опастно! </strong> Отменить данное действие будет
-					невозможно!
-				</Text>
-				<Button mt={10} color="red" onClick={() => setModalOpen(true)}>
-					Удалить бренд
-				</Button>
-			</Alert>
-			<Modal
-				title="Удалить бренд"
-				opened={modalIsOpen}
-				onClose={closeModal}>
-				<Stack>
-					<Select
-						value={brandId}
-						data={brandData}
-						onChange={value => value && setBrandId(value)}
-						required
-						searchable
-						label="Выберите бренд который хотите удалить"
-						placeholder="Название"
-					/>
-					<Button
-						onClick={removeBrand}
-						leftIcon={<DatabaseOff />}
-						color="red">
-						Удалить бренд
-					</Button>
+  const closeModal = () => {
+    setBrandId("");
+    setStatusText("");
+    setStatus(null);
+    setModalOpen(false);
+  };
+  return (
+    <div>
+      <Alert title="Удалить бренд" icon={<SquareMinus />} color="red">
+        <Text>
+          <strong>Опасно! </strong> Отменить данное действие будет невозможно!
+        </Text>
+        <Button mt={10} color="red" onClick={() => setModalOpen(true)}>
+          Удалить бренд
+        </Button>
+      </Alert>
+      <Modal title="Удалить бренд" opened={modalIsOpen} onClose={closeModal}>
+        <Stack>
+          <Select
+            value={brandId}
+            data={brandData}
+            onChange={(value) => value && setBrandId(value)}
+            required
+            searchable
+            label="Выберите бренд который хотите удалить"
+            placeholder="Название"
+          />
+          <Button onClick={removeBrand} leftIcon={<DatabaseOff />} color="red">
+            Удалить бренд
+          </Button>
 
-					{status && (
-						<Alert
-							icon={status === 'ok' ? <MoodHappy /> : <MoodSad />}
-							color={status === 'ok' ? 'green' : 'red'}>
-							{statusText}
-						</Alert>
-					)}
-				</Stack>
-			</Modal>
-		</div>
-	);
+          {status && (
+            <Alert
+              icon={status === "ok" ? <MoodHappy /> : <MoodSad />}
+              color={status === "ok" ? "green" : "red"}
+            >
+              {statusText}
+            </Alert>
+          )}
+        </Stack>
+      </Modal>
+    </div>
+  );
 };

@@ -10,8 +10,9 @@ import {
 import { useForm } from "@mantine/form";
 import { StepperProvider } from "../pages/Auth";
 import { useAppDispatch, useAppSelector } from "../hooks/react-redux";
-import { register } from "../store/slices/userSlice";
+import { register, setFromUrl } from "../store/slices/userSlice";
 import { Mail, UserCircle, Lock } from "tabler-icons-react";
+import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
   const { nextStep, prevStep } = useContext(StepperProvider);
@@ -19,6 +20,8 @@ export const SignUp = () => {
     (state) => state.userState.registerInProgress
   );
   const dispatch = useAppDispatch();
+  const fromUrl = useAppSelector((state) => state.userState.fromUrl);
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -50,7 +53,12 @@ export const SignUp = () => {
               password: values.password,
               username: values.name,
             })
-          )
+          ).then(() => {
+            if (fromUrl !== null) {
+              navigate(fromUrl);
+              dispatch(setFromUrl(null));
+            }
+          })
         )}
       >
         <Tooltip

@@ -22,15 +22,13 @@ export const Orders = () => {
           {orders?.map((order) => (
             <Accordion.Item label={`Заказ номер ${order.id}`}>
               <Stack align="center">
-                <Text>
-                  Статус заказа :
-                  <Mark color={order.status === "active" ? "yellow" : "green"}>
-                    {order.status === "active" ? "В пути" : "Завершен"}
-                  </Mark>
-                </Text>
                 <Text align="right">
                   {"Был оформлен " +
                     format(parseISO(order.createdAt), "yyyy-MM-dd 'в' H:m")}
+                </Text>
+                <Text align="right">Самовывоз на адресс: {order.address}</Text>
+                <Text align="right">
+                  Заказ можно забрать в течении одной рабочей недели
                 </Text>
               </Stack>
 

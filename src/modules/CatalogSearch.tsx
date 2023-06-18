@@ -121,7 +121,7 @@ export const CatalogSearch: FC<CatalogSearchProps> = ({
     <Select
       label={label}
       ref={searchInput}
-      placeholder="Посик товаров"
+      placeholder="Поиск товаров"
       itemComponent={SelectItem}
       onChange={selectSearchItem}
       data={items as []}

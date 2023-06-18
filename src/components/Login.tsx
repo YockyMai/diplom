@@ -3,12 +3,18 @@ import { Box, Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import { useAppDispatch, useAppSelector } from "../hooks/react-redux";
-import { login } from "../store/slices/userSlice";
+import { login, setFromUrl } from "../store/slices/userSlice";
 import { Lock, UserCircle } from "tabler-icons-react";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
   const { loginInProgress } = useAppSelector((state) => state.userState);
+
+  const fromUrl = useAppSelector((state) => state.userState.fromUrl);
+  const navigate = useNavigate();
+
+  console.log(fromUrl);
 
   const schema = z.object({
     email: z.string().email({ message: "Неверный формат email" }),
@@ -34,7 +40,12 @@ export const Login = () => {
               email: values.email,
               password: values.password,
             })
-          );
+          ).then(() => {
+            if (fromUrl) {
+              navigate(fromUrl);
+              dispatch(setFromUrl(null));
+            }
+          });
         })}
       >
         <TextInput

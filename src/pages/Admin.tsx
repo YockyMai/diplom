@@ -10,6 +10,7 @@ import { DeleteProduct } from "../components/Admin/DeleteProduct";
 import { DeleteType } from "../components/Admin/deleteType";
 import { useAppSelector } from "../hooks/react-redux";
 import EditProduct from "../components/Admin/EditProduct";
+import ApproveComment from "../components/Admin/ApproveComment";
 
 export const Admin = () => {
   const { username } = useAppSelector((state) => state.userState.user);
@@ -44,6 +45,11 @@ export const Admin = () => {
           <Stack>
             <AddSize />
             <AddSizeInstance />
+          </Stack>
+        </Accordion.Item>
+        <Accordion.Item label="Модерация отзывов">
+          <Stack>
+            <ApproveComment />
           </Stack>
         </Accordion.Item>
       </Accordion>

@@ -18,7 +18,7 @@ import {
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import {
   InfoCircle,
   MessageCircle,
@@ -33,8 +33,10 @@ import { Сomments } from "../modules/Сomments";
 import { addProductToCart } from "../store/slices/cartSlice";
 import { getOneProduct } from "../store/slices/productSlice";
 import currencyStringsFormatter from "../utils/currencyStringsFormatter";
+import { setFromUrl } from "../store/slices/userSlice";
 
 export const Product = () => {
+  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const { id } = useParams();
 
@@ -63,6 +65,7 @@ export const Product = () => {
 
   const addProduct = () => {
     if (!isAuth) {
+      dispatch(setFromUrl(pathname));
       setCartErrorModal(true);
     } else if (!selectedSize) {
       setSizeError("Вы должны выбрать размер");
